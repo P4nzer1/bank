@@ -1,0 +1,11 @@
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <mat-label>Фамилия</mat-label>
+      <input matInput formControlName="firstName" required>
+    </mat-form-field>
+  
+    <!-- Другие поля формы аналогичным образом -->
+  
+    <button mat-raised-button color="primary" type="submit" [disabled]="!registerForm.valid">Зарегистрироваться</button>
+  </form>
+  

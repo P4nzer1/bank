@@ -1,0 +1,21 @@
+<div class="account-transfer-container">
+    <form [formGroup]="transferForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Счет отправителя</mat-label>
+        <input matInput type="text" formControlName="fromAccount" placeholder="Введите счет отправителя" required />
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline">
+        <mat-label>Счет получателя</mat-label>
+        <input matInput type="text" formControlName="toAccount" placeholder="Введите счет получателя" required />
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline">
+        <mat-label>Сумма перевода</mat-label>
+        <input matInput type="number" formControlName="amount" placeholder="Введите сумму" required />
+      </mat-form-field>
+  
+      <button mat-raised-button color="primary" type="submit" [disabled]="!transferForm.valid">Перевести средства</button>
+    </form>
+  </div>
+  

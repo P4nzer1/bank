@@ -1,0 +1,20 @@
+<div class="card-order-container">
+    <form [formGroup]="cardForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Тип карты</mat-label>
+        <mat-select formControlName="cardType" placeholder="Выберите тип карты" required>
+          <mat-option value="credit">Кредитная</mat-option>
+          <mat-option value="debit">Дебетовая</mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+  
+      <mat-form-field appearance="outline">
+        <mat-label>Адрес доставки</mat-label>
+        <input matInput type="text" formControlName="deliveryAddress" placeholder="Введите адрес" required />
+      </mat-form-field>
+  
+      <button mat-raised-button color="primary" type="submit" [disabled]="!cardForm.valid">Заказать карту</button>
+    </form>
+</div>
+  

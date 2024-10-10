@@ -1,0 +1,24 @@
+.account-transfer-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #5a8afa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  mat-form-field {
+    width: 100%;
+  }
+  
+  button[type='submit'] {
+    align-self: center;
+    padding: 10px 20px;
+    font-size: 16px;
+  }

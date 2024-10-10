@@ -1,0 +1,40 @@
+html, body {
+     height: 100%;
+     margin: 0;
+   }
+   
+   .app-container {
+     display: flex;
+     flex-direction: column;
+     min-height: 85vh; // Занимает всю высоту окна браузера
+   }
+   
+   .content-container {
+     flex: 1; // Данный блок будет занимать все оставшееся пространство между хэдером и футером
+     padding: 20px; // Добавление отступов
+   }
+   
+   app-header {
+     flex: 0 0 auto; // Фиксированное положение хедера наверху
+   }
+   
+   app-footer {
+     flex: 0 0 auto; // Фиксированное положение футера внизу
+   }
+   
+   .navigation-links {
+     margin-top: 20px;
+     display: flex;
+     flex-wrap: wrap;
+     gap: 10px;
+   
+     a {
+       text-decoration: none;
+       color: #2e2f48;
+   
+       &:hover {
+         text-decoration: underline;
+       }
+     }
+   }
+   

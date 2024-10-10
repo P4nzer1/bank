@@ -1,0 +1,21 @@
+.header-toolbar {
+    padding: 10px 20px;
+    
+    display: flex;
+    align-items: center;
+  }
+  .header-logo img {
+    height: 50px;
+  }
+  .header-nav {
+    display: flex;
+    gap: 20px;
+  }
+  .header-actions {
+    display: flex;
+    gap: 10px;
+  }
+  .spacer {
+    flex: 1 1 auto;
+  }
+  
