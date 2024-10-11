@@ -28,4 +28,9 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('accessToken');
   }
+  isLoggedIn(): boolean {
+    // Здесь может быть логика проверки токена или информации о пользователе в localStorage/sessionStorage
+    const token = localStorage.getItem('authToken');
+    return !!token; // Если токен есть, возвращаем true, иначе false
+  }
 }

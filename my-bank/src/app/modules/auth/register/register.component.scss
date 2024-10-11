@@ -1,0 +1,29 @@
+.register-container {
+    max-width: 480px;
+    margin: 5rem auto;
+    padding: 2rem;
+    background: #333;
+    border-radius: 10px;
+    color: #fff;
+  
+    mat-card-title {
+      text-align: center;
+      font-size: 1.5rem;
+    }
+  
+    mat-form-field {
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+  
+    mat-card-actions {
+      display: flex;
+      justify-content: center;
+  
+      button {
+        width: 100%;
+        max-width: 200px;
+      }
+    }
+  }
+  

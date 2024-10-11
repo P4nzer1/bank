@@ -1,19 +1,15 @@
 <div class="app-container">
-
     <app-header></app-header>
     <div class="content-container">
-
       <router-outlet></router-outlet>
-      <nav class="navigation-links">
-
-        <a routerLink="/auth/register">Зарегистрироваться</a>
-        <a routerLink="/auth/login">Войти</a>
+  
+      <!-- Меню навигации только для авторизованных пользователей -->
+      <nav class="navigation-links" *ngIf="authService.isLoggedIn()">
         <a routerLink="/toolbar/products">Главная страница</a>
         <a routerLink="/operations/open">Открыть счет</a>
         <a routerLink="/operations/refill">Пополнить счет</a>
         <a routerLink="/operations/transfer">Перевести средства</a>
         <a routerLink="/operations/order">Заказать карту</a>
-
       </nav>
     </div>
     <app-footer></app-footer>

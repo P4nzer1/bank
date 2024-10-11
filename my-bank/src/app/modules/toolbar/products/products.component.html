@@ -1,15 +1,36 @@
-<div>
-  <h2>Ваши счета</h2>
-  <mat-card *ngFor="let account of accounts">
-    <mat-card-title>{{ account.name }}</mat-card-title>
-    <mat-card-content>Баланс: {{ account.balance }}</mat-card-content>
-  </mat-card>
-
-  <h2>Ваши карты</h2>
-  <mat-card *ngFor="let card of cards">
-    <mat-card-title>{{ card.name }}</mat-card-title>
-    <mat-card-content>Номер карты: {{ card.number }}</mat-card-content>
-  </mat-card>
+<div *ngIf="loadingAccounts || loadingCards" class="loading">
+  <mat-spinner></mat-spinner> <!-- Индикатор загрузки -->
 </div>
 
-  
+<div *ngIf="errorMessage" class="error">
+  {{ errorMessage }}
+</div>
+
+<div *ngIf="!loadingAccounts && !loadingCards && !errorMessage">
+  <h2>Ваши счета</h2>
+  <div *ngIf="accounts.length > 0; else noAccounts">
+    <mat-card *ngFor="let account of accounts">
+      <mat-card-title>{{ account.name }}</mat-card-title>
+      <mat-card-content>
+        Баланс: {{ account.balance }} {{ account.currency }}
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <ng-template #noAccounts>
+    <p>У вас нет доступных счетов.</p>
+  </ng-template>
+
+  <h2>Ваши карты</h2>
+  <div *ngIf="cards.length > 0; else noCards">
+    <mat-card *ngFor="let card of cards">
+      <mat-card-title>{{ card.number }}</mat-card-title>
+      <mat-card-content>
+        Лимит: {{ card.limit }} {{ card.currency }}
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <ng-template #noCards>
+    <p>У вас нет доступных карт.</p>
+  </ng-template>
+</div>
+

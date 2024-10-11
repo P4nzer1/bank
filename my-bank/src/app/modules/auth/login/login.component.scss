@@ -1,11 +1,27 @@
 .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  mat-card {
-    width: 400px;
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; // Высота по всей высоте экрана
+  background-color: #f5f5f5; // Светлый фон для всего экрана
+}
+
+.login-form {
+  background-color: #333; // Тёмный фон формы
+  padding: 2rem; // Отступы внутри формы
+  border-radius: 8px; // Закругленные углы формы
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); // Тень для визуальной глубины
+  max-width: 400px; // Максимальная ширина для формы
+  width: 100%; // Заполняет всю ширину для мобильных устройств
+}
+
+mat-form-field {
+  width: 100%; // Поля ввода заполняют всю ширину формы
+  margin-bottom: 1.5rem; // Отступ между полями ввода
+}
+
+button {
+  width: 100%; // Кнопка занимает всю ширину
+  margin-top: 1rem; // Отступ сверху для кнопки
+}
+

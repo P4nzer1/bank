@@ -1,11 +1,53 @@
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-    <mat-form-field>
+<div class="register-container">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline">
       <mat-label>Фамилия</mat-label>
-      <input matInput formControlName="firstName" required>
+      <input matInput formControlName="lastName" required />
     </mat-form-field>
-  
-    <!-- Другие поля формы аналогичным образом -->
-  
+
+    <mat-form-field appearance="outline">
+      <mat-label>Имя</mat-label>
+      <input matInput formControlName="firstName" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Отчество</mat-label>
+      <input matInput formControlName="middleName" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Логин</mat-label>
+      <input matInput formControlName="login" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Пароль</mat-label>
+      <input matInput type="password" formControlName="password" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Номер телефона</mat-label>
+      <input matInput type="tel" formControlName="phoneNumber" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Адрес</mat-label>
+      <input matInput formControlName="address" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Пол</mat-label>
+      <mat-select formControlName="sex" required>
+        <mat-option value="male">Мужской</mat-option>
+        <mat-option value="female">Женский</mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <button mat-raised-button color="primary" type="submit" [disabled]="!registerForm.valid">Зарегистрироваться</button>
   </form>
-  
+</div>

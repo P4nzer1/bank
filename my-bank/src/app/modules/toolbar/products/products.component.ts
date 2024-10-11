@@ -9,21 +9,44 @@ import { ProductsService } from 'src/app/modules/core/services/products.service'
 export class ProductsComponent implements OnInit {
   accounts: any[] = [];
   cards: any[] = [];
+  loadingAccounts = true;
+  loadingCards = true;
+  errorMessage = '';
 
   constructor(private productsService: ProductsService) {}
 
-  ngOnInit() {
-    this.productsService.getAccounts().subscribe(data => {
-      this.accounts = data;
-    }, error => {
-      console.error('Ошибка при получении счетов:', error);
-    });
+  ngOnInit(): void {
+    this.loadAccounts();
+    this.loadCards();
+  }
 
-    this.productsService.getCards().subscribe(data => {
-      this.cards = data;
-    }, error => {
-      console.error('Ошибка при получении карт:', error);
+  loadAccounts() {
+    this.productsService.getAccounts().subscribe({
+      next: (data) => {
+        this.accounts = data;
+        this.loadingAccounts = false;
+      },
+      error: (error) => {
+        this.errorMessage = 'Ошибка при получении счетов.';
+        this.loadingAccounts = false;
+        console.error('Ошибка при получении счетов:', error);
+      }
+    });
+  }
+
+  loadCards() {
+    this.productsService.getCards().subscribe({
+      next: (data) => {
+        this.cards = data;
+        this.loadingCards = false;
+      },
+      error: (error) => {
+        this.errorMessage = 'Ошибка при получении карт.';
+        this.loadingCards = false;
+        console.error('Ошибка при получении карт:', error);
+      }
     });
   }
 }
+
 
