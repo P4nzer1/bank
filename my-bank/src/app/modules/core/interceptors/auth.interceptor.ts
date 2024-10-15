@@ -1,17 +1,21 @@
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const authToken = localStorage.getItem('authToken');
+    const accessToken = localStorage.getItem('accessToken');
 
-    // Клонирование запроса с добавлением токена, если он существует
-    const clonedRequest = authToken
-      ? req.clone({ headers: req.headers.set('Authorization', `Bearer ${authToken}`) })
-      : req;
+    let clonedRequest = req;
+    if (accessToken) {
+      clonedRequest = req.clone({
+        setHeaders: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      });
+    }
 
     return next.handle(clonedRequest).pipe(
       catchError((error: HttpErrorResponse) => {

@@ -3,31 +3,54 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class OperationService {
-  private baseUrl = 'https://api.example.com/operations';
+  private baseUrl = '/api/operations';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  // Метод для открытия счета
-  openAccount(accountData: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/account/open`, accountData);
+  // Запуск новой операции открытия счета
+  startOperation(operationData: any): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}`, operationData);
   }
 
-  // Метод для заказа карты
-  orderCard(cardData: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/card/order`, cardData);
+  // Выполнение следующего шага операции
+  proceedOperation(requestId: string, stepData: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}?requestId=${requestId}`, stepData);
   }
 
-  // Метод для пополнения счета
-  refillAccount(refillData: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/account/refill`, refillData);
+  // Подтверждение операции
+  confirmOperation(operationId: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/${operationId}/confirm`, {});
   }
 
-  // Метод для перевода средств
-  transferFunds(transferData: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/account/transfer`, transferData);
+  // Удаление операции
+  deleteOperation(operationId: string): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/${operationId}`);
+  }
+
+  // Получение списка операций клиента
+  getOperations(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}`);
+  }
+
+  saveToken(token: string): void {
+    localStorage.setItem('accessToken', token);
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('accessToken');
+  }
+
+  removeToken(): void {
+    localStorage.removeItem('accessToken');
+  }
+
+  isLoggedIn(): boolean {
+    const token = this.getToken();
+    return !!token; // Если токен есть, возвращаем true
   }
 }
+
 

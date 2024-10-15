@@ -20,14 +20,19 @@ export class AccountTransferComponent {
 
   onSubmit() {
     if (this.transferForm.valid) {
-      this.operationService.transferFunds(this.transferForm.value).subscribe({
+      const transferData = this.transferForm.value;
+  
+      // Запуск операции перевода средств
+      this.operationService.startOperation(transferData).subscribe({
         next: response => {
-          console.log('Funds transferred successfully:', response);
+          console.log('Funds transfer operation started successfully:', response);
+          // Дополнительная логика: можно использовать proceedOperation и confirmOperation при необходимости
         },
         error: err => {
-          console.error('Failed to transfer funds:', err);
+          console.error('Failed to start transfer operation:', err);
         }
       });
     }
   }
+  
 }

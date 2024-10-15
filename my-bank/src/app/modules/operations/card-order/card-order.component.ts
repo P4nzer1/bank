@@ -19,14 +19,19 @@ export class CardOrderComponent {
 
   onSubmit() {
     if (this.cardForm.valid) {
-      this.operationService.orderCard(this.cardForm.value).subscribe({
+      const cardOrderData = this.cardForm.value;
+  
+      // Запуск операции заказа карты
+      this.operationService.startOperation(cardOrderData).subscribe({
         next: response => {
-          console.log('Card ordered successfully:', response);
+          console.log('Card order operation started successfully:', response);
+          // Дополнительная логика: proceedOperation и confirmOperation, если требуется
         },
         error: err => {
-          console.error('Failed to order card:', err);
+          console.error('Failed to start card order operation:', err);
         }
       });
     }
   }
+  
 }

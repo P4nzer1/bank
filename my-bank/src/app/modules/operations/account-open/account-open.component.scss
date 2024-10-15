@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
     padding: 40px;
-    background-color: #f5f5f5;
+    background-color: #ffffff;
     border-radius: 8px;
   
     form {
@@ -12,7 +12,7 @@
       display: flex;
       flex-direction: column;
       gap: 20px;
-      background-color: #2d318892;
+      background-color: #1a1f8692;
       padding: 30px;
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -23,6 +23,13 @@
   
       mat-select {
         background-color: #ffffff;
+        height: 30px;
+        
+      }
+      
+      mat-option {
+        background-color: #ffffff; // Белый фон для каждой опции
+        color: #000000;           // Черный цвет для текста опции
       }
     }
   

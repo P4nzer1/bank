@@ -26,21 +26,22 @@ export class LoginComponent {
 
   onLogin() {
     if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value).subscribe({
+      const loginData = {
+        login: this.loginForm.get('login')?.value,
+        password: this.loginForm.get('password')?.value
+      };
+  
+      this.authService.login(loginData).subscribe({
         next: (response) => {
-          // Сохранение accessToken
-          localStorage.setItem('authToken', response.accessToken);
-
-          // Проверка на наличие returnUrl и редирект
+          this.authService.saveToken(response.accessToken);
           const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/toolbar/products';
           this.router.navigate([returnUrl]);
         },
         error: (error) => {
-          // Обработка ошибки авторизации
           console.error('Ошибка авторизации', error);
         }
       });
     }
-  }
-}
+  }  
+}  
 

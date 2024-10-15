@@ -16,9 +16,9 @@ export class ProductsComponent implements OnInit {
   constructor(private productsService: ProductsService) {}
 
   ngOnInit(): void {
-    this.loadAccounts();
     this.loadCards();
-  }
+    this.loadAccounts();
+    }
 
   loadAccounts() {
     this.productsService.getAccounts().subscribe({
@@ -30,7 +30,7 @@ export class ProductsComponent implements OnInit {
         this.errorMessage = 'Ошибка при получении счетов.';
         this.loadingAccounts = false;
         console.error('Ошибка при получении счетов:', error);
-      }
+      },
     });
   }
 
