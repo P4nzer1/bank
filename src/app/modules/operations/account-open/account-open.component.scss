@@ -1,0 +1,51 @@
+.account-open-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  width: 700px;
+
+  form {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: #1a1f8692;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  mat-form-field {
+    width: 100%;
+
+   
+    input {
+      background-color: #ffffff;
+      color: #000000;  
+      padding: 10px;
+      border-radius: 4px;
+    }
+    mat-select {
+      background-color: #ffffff;
+      height: 40px;
+    }
+
+    mat-option {
+      background-color: #ffffff; 
+      color: #000000;          
+    }
+    mat-error {
+      color: #ff0000;
+    }
+  }
+
+  button {
+    align-self: center;
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+}

@@ -1,0 +1,45 @@
+<div class="account-open-container">
+  <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline">
+      <mat-label for="accountType">Тип счета (число)</mat-label>
+      <input id="accountType" matInput type="number" formControlName="accountType" placeholder="Введите тип счета (число)" required />
+      <mat-error *ngIf="accountForm.get('accountType')?.hasError('required')">
+        Тип счета обязателен для заполнения
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label for="initialDeposit">Начальный взнос</mat-label>
+      <input id="initialDeposit" matInput type="number" formControlName="initialDeposit" placeholder="Введите начальный взнос" required />
+      <mat-error *ngIf="accountForm.get('initialDeposit')?.hasError('required')">
+        Начальный взнос обязателен для заполнения
+      </mat-error>
+      <mat-error *ngIf="accountForm.get('initialDeposit')?.hasError('min')">
+        Начальный взнос должен быть не менее 100
+      </mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="!accountForm.valid">Открыть счет</button>
+  </form>
+
+  <div *ngFor="let param of stepParams">
+    <mat-form-field *ngIf="param.type === 'multiple'" appearance="outline">
+      <mat-label>{{ param.name }}</mat-label>
+      <mat-select [formControlName]="param.identifier" [required]="param.required">
+        <mat-option *ngFor="let option of param.values" [value]="option">{{ option }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="accountForm.get(param.identifier)?.hasError('required')">
+        {{ param.name }} обязателен для заполнения
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="param.type === 'text'" appearance="outline">
+      <mat-label>{{ param.name }}</mat-label>
+      <input matInput [formControlName]="param.identifier" [required]="param.required" />
+      <mat-error *ngIf="accountForm.get(param.identifier)?.hasError('required')">
+        {{ param.name }} обязателен для заполнения
+      </mat-error>
+    </mat-form-field>
+  </div>
+</div>
+
