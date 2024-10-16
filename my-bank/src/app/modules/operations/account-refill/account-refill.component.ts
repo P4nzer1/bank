@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { OperationService } from '../../core/services/operation.service';
+import { AccountOperationService } from '../../core/services/account-operation.service';
 
 @Component({
   selector: 'app-account-refill',
@@ -10,7 +10,10 @@ import { OperationService } from '../../core/services/operation.service';
 export class AccountRefillComponent {
   refillForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private operationService: OperationService) {
+  constructor(
+    private fb: FormBuilder,
+    private accountOperationService: AccountOperationService
+  ) {
     this.refillForm = this.fb.group({
       accountNumber: ['', Validators.required],
       amount: ['', [Validators.required, Validators.min(1)]]
@@ -23,57 +26,16 @@ export class AccountRefillComponent {
       return;
     }
 
-    const operationData = {
-      operationCode: 'AccountRefill',
-      parameters: [
-        { identifier: 'accountNumber', value: this.refillForm.get('accountNumber')?.value },
-        { identifier: 'amount', value: this.refillForm.get('amount')?.value }
-      ]
-    };
+    const accountNumber = this.refillForm.get('accountNumber')?.value;
+    const amount = this.refillForm.get('amount')?.value;
 
-    this.operationService.startOperation(operationData).subscribe(
+    this.accountOperationService.refillAccount(accountNumber, amount).subscribe(
       response => {
-        console.log('Operation started successfully:', response);
-        const requestId = response.requestId;
-        if (requestId) {
-          this.proceedOperation(requestId);
-        } else {
-          console.error('Request ID not received from server');
-        }
+        console.log('Счет успешно пополнен', response);
       },
       error => {
-        console.error('Failed to start operation:', error);
+        console.error('Ошибка при пополнении счета', error);
       }
     );
-  }
-
-  proceedOperation(requestId: string) {
-    const stepData = [
-      { identifier: "Счёт пополнения", value: String(this.refillForm.get('accountNumber')?.value) },
-      { identifier: "Сумма пополнения", value: String(this.refillForm.get('amount')?.value) }
-    ];
-  
-    this.operationService.proceedOperation(requestId, stepData).subscribe({
-      next: response => {
-        console.log('Operation proceeded successfully', response);
-        if (response.stepParams) {
-          this.updateFormWithStepParams(response.stepParams);
-        } else {
-          console.log('Operation completed successfully');
-        }
-      },
-      error: err => {
-        console.error('Failed to proceed operation:', err);
-      }
-    });
-  }
-  
-
-  updateFormWithStepParams(stepParams: any[]) {
-    stepParams.forEach(param => {
-      if (!this.refillForm.contains(param.identifier)) {
-        this.refillForm.addControl(param.identifier, this.fb.control('', Validators.required));
-      }
-    });
   }
 }

@@ -35,22 +35,6 @@ export class OperationService {
     return this.http.get<any>(`${this.baseUrl}`);
   }
 
-  saveToken(token: string): void {
-    localStorage.setItem('accessToken', token);
-  }
-
-  getToken(): string | null {
-    return localStorage.getItem('accessToken');
-  }
-
-  removeToken(): void {
-    localStorage.removeItem('accessToken');
-  }
-
-  isLoggedIn(): boolean {
-    const token = this.getToken();
-    return !!token; // Если токен есть, возвращаем true
-  }
 }
 
 

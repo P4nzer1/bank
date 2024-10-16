@@ -7,8 +7,6 @@ import { Observable } from 'rxjs';
 })
 export class ProductsService {
 
-  private baseUrl = 'https://fw-ib-7fc99.psb-tech.ru/api'; 
-
   constructor(private http: HttpClient) {}
 
   getCards(): Observable<any[]> {
@@ -50,22 +48,7 @@ export class ProductsService {
   activateCard(cardId: string): Observable<any> {
     return this.http.patch<any>(`/api/cards/activate/${cardId}`, {});
   }
-  saveToken(token: string): void {
-    localStorage.setItem('accessToken', token);
-  }
-
-  getToken(): string | null {
-    return localStorage.getItem('accessToken');
-  }
-
-  removeToken(): void {
-    localStorage.removeItem('accessToken');
-  }
-
-  isLoggedIn(): boolean {
-    const token = this.getToken();
-    return !!token; // Если токен есть, возвращаем true
-  }
+  
 }
 
 

@@ -10,7 +10,7 @@ import { CoreModule } from './modules/core/core.module';
 import { GeneralModule } from './modules/general/general.module';
 import { ToolbarModule } from './modules/toolbar/toolbar.module';
 import { OperationsModule } from './modules/operations/operations.module';
-import { ProtectedComponent } from './protected/protected.component';
+
 
 
 
@@ -20,8 +20,6 @@ import { ProtectedComponent } from './protected/protected.component';
 @NgModule({
   declarations: [
     AppComponent,
-    ProtectedComponent,
-    
   ],
   imports: [
     BrowserModule,

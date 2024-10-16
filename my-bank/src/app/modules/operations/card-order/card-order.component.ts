@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { OperationService } from '../../core/services/operation.service';
+import { AccountOperationService } from '../../core/services/account-operation.service';
 
 @Component({
   selector: 'app-card-order',
@@ -10,7 +10,7 @@ import { OperationService } from '../../core/services/operation.service';
 export class CardOrderComponent {
   cardForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private operationService: OperationService) {
+  constructor(private fb: FormBuilder, private accountOperationService: AccountOperationService) {
     this.cardForm = this.fb.group({
       cardType: ['', Validators.required],
       deliveryAddress: ['', Validators.required]
@@ -18,20 +18,25 @@ export class CardOrderComponent {
   }
 
   onSubmit() {
-    if (this.cardForm.valid) {
-      const cardOrderData = this.cardForm.value;
-  
-      // Запуск операции заказа карты
-      this.operationService.startOperation(cardOrderData).subscribe({
-        next: response => {
-          console.log('Card order operation started successfully:', response);
-          // Дополнительная логика: proceedOperation и confirmOperation, если требуется
-        },
-        error: err => {
-          console.error('Failed to start card order operation:', err);
-        }
-      });
+    if (this.cardForm.invalid) {
+      console.error('Форма заполнена неверно:', this.cardForm);
+      return;
     }
+
+    const cardOrderData = {
+      cardType: this.cardForm.get('cardType')?.value,
+      deliveryAddress: this.cardForm.get('deliveryAddress')?.value
+    };
+    const deliveryAddress = this.cardForm.get('deliveryAddress')?.value;
+
+    this.accountOperationService.orderCard(deliveryAddress).subscribe(
+      response => {
+        console.log('Card order started successfully', response);
+        // Дополнительная логика после успешного заказа карты
+      },
+      error => {
+        console.error('Failed to start card order operation', error);
+      }
+    );
   }
-  
 }
