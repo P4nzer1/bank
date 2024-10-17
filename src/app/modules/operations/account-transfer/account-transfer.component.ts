@@ -32,8 +32,9 @@ export class AccountTransferComponent {
       console.error('Форма заполнена неверно', this.transferForm);
       return;
     }
-
-    this.accountOperationService.startOperation().pipe(
+  
+    // Запускаем операцию с указанием кода операции 'AccountTransfer'
+    this.accountOperationService.startOperation('AccountTransfer').pipe(
       switchMap(response => {
         console.log('Funds transfer operation started successfully:', response);
         const requestId = response.requestId;
@@ -64,6 +65,7 @@ export class AccountTransferComponent {
       }
     });
   }
+  
 
   proceedOperation(requestId: string, transferData: any): Observable<any> {
     return this.accountOperationService.proceedOperation(requestId, transferData).pipe(

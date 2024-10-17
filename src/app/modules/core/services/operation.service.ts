@@ -11,8 +11,8 @@ export class OperationService {
   constructor(private http: HttpClient) {}
 
 
-  startOperation(): Observable<any> {
-    return this.http.put<any>(`${this.baseUrl}`, {});
+  startOperation(operationCode: string): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}`, { operationCode });
   }
   
   

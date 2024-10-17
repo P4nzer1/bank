@@ -23,59 +23,65 @@ export class AccountOperationService {
 
   refillAccount(accountNumber: string, amount: number): Observable<any> {
     const operationData = {
-      operationCode: 'AccountRefill',
       parameters: [
         { identifier: 'accountNumber', value: accountNumber },
         { identifier: 'amount', value: amount }
       ]
     };
 
-    return this.operationService.startOperation().pipe(
+    return this.operationService.startOperation('AccountRefill').pipe(
       switchMap(response => {
-        const requestId = response.requestId;  
-        return this.proceedOperation(requestId, operationData);  
+        const requestId = response.requestId;
+        if (requestId) {
+          return this.operationService.proceedOperation(requestId, operationData); 
+        } else {
+          throw new Error('Request ID не получен');
+        }
       })
     );
   }
 
   openAccount(AccountType: string, initialBalance: number): Observable<any> {
     const operationData = {
-      operationCode: 'AccountOpen',
       parameters: [
         { identifier: 'AccountType', value: AccountType },
         { identifier: 'InitialBalance', value: initialBalance.toString() }
       ]
     };
 
-   
-    return this.operationService.startOperation().pipe(
+    return this.operationService.startOperation('AccountOpen').pipe(
       switchMap(response => {
-        const requestId = response.requestId;  
-        return this.proceedOperation(requestId, operationData);  
+        const requestId = response.requestId;
+        if (requestId) {
+          return this.operationService.proceedOperation(requestId, operationData); 
+        } else {
+          throw new Error('Request ID не получен');
+        }
       })
     );
   }
 
   orderCard(deliveryAddress: string): Observable<any> {
     const operationData = {
-      operationCode: 'CardOrder',
       parameters: [
         { identifier: 'deliveryAddress', value: deliveryAddress }
       ]
     };
 
-   
-    return this.operationService.startOperation().pipe(
+    return this.operationService.startOperation('CardOrder').pipe(
       switchMap(response => {
-        const requestId = response.requestId; 
-        return this.proceedOperation(requestId, operationData);  
+        const requestId = response.requestId;
+        if (requestId) {
+          return this.operationService.proceedOperation(requestId, operationData);
+        } else {
+          throw new Error('Request ID не получен');
+        }
       })
     );
   }
 
   transferBetweenAccounts(fromAccount: string, toAccount: string, amount: number): Observable<any> {
     const operationData = {
-      operationCode: 'AccountTransfer',
       parameters: [
         { identifier: 'fromAccount', value: fromAccount },
         { identifier: 'toAccount', value: toAccount },
@@ -83,23 +89,28 @@ export class AccountOperationService {
       ]
     };
 
-    return this.operationService.startOperation().pipe(
+    return this.operationService.startOperation('AccountTransfer').pipe(
       switchMap(response => {
-        const requestId = response.requestId;  
-        return this.proceedOperation(requestId, operationData);  
+        const requestId = response.requestId;
+        if (requestId) {
+          return this.operationService.proceedOperation(requestId, operationData);
+        } else {
+          throw new Error('Request ID не получен');
+        }
       })
     );
   }
 
-  startOperation(): Observable<any> {
-    return this.operationService.startOperation(); 
+  startOperation(operationCode: string): Observable<any> {
+    return this.operationService.startOperation(operationCode);
   }
-  
+
   proceedOperation(requestId: string, stepData: any): Observable<any> {
     return this.operationService.proceedOperation(requestId, stepData);
-  }
-  
+  }  
+
   confirmOperation(operationId: string): Observable<any> {
     return this.operationService.confirmOperation(operationId);
   }
 }
+
