@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ProductsService } from './products.service';
 import { OperationService } from './operation.service';
 import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';  
 
 @Injectable({
   providedIn: 'root'
@@ -28,19 +29,31 @@ export class AccountOperationService {
         { identifier: 'amount', value: amount }
       ]
     };
-    return this.operationService.startOperation(operationData);
+
+    return this.operationService.startOperation().pipe(
+      switchMap(response => {
+        const requestId = response.requestId;  
+        return this.proceedOperation(requestId, operationData);  
+      })
+    );
   }
 
-  
-  openAccount(accountType: string, initialBalance: number): Observable<any> {
+  openAccount(AccountType: string, initialBalance: number): Observable<any> {
     const operationData = {
       operationCode: 'AccountOpen',
       parameters: [
-        { identifier: 'accountType', value: accountType },
-        { identifier: 'initialBalance', value: initialBalance }
+        { identifier: 'AccountType', value: AccountType },
+        { identifier: 'InitialBalance', value: initialBalance.toString() }
       ]
     };
-    return this.operationService.startOperation(operationData);
+
+   
+    return this.operationService.startOperation().pipe(
+      switchMap(response => {
+        const requestId = response.requestId;  
+        return this.proceedOperation(requestId, operationData);  
+      })
+    );
   }
 
   orderCard(deliveryAddress: string): Observable<any> {
@@ -50,8 +63,16 @@ export class AccountOperationService {
         { identifier: 'deliveryAddress', value: deliveryAddress }
       ]
     };
-    return this.operationService.startOperation(operationData);
+
+   
+    return this.operationService.startOperation().pipe(
+      switchMap(response => {
+        const requestId = response.requestId; 
+        return this.proceedOperation(requestId, operationData);  
+      })
+    );
   }
+
   transferBetweenAccounts(fromAccount: string, toAccount: string, amount: number): Observable<any> {
     const operationData = {
       operationCode: 'AccountTransfer',
@@ -61,18 +82,24 @@ export class AccountOperationService {
         { identifier: 'amount', value: amount }
       ]
     };
-    return this.operationService.startOperation(operationData);
+
+    return this.operationService.startOperation().pipe(
+      switchMap(response => {
+        const requestId = response.requestId;  
+        return this.proceedOperation(requestId, operationData);  
+      })
+    );
   }
 
-  startOperation(operationData: any): Observable<any> {
-    return this.operationService.startOperation(operationData);
+  startOperation(): Observable<any> {
+    return this.operationService.startOperation(); 
   }
-
+  
   proceedOperation(requestId: string, stepData: any): Observable<any> {
     return this.operationService.proceedOperation(requestId, stepData);
   }
+  
   confirmOperation(operationId: string): Observable<any> {
     return this.operationService.confirmOperation(operationId);
   }
-  
 }

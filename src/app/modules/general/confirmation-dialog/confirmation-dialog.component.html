@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Подтверждение операции</h2>
+<mat-dialog-content>
+    <p>Вы уверены, что хотите подтвердить операцию: {{data.operationName}}?</p>
+</mat-dialog-content>
+<mat-dialog-actions class="dialog-actions">
+    <button mat-button (click)="onCancel()">Отмена</button>
+    <button mat-button color="primary" (click)="onConfirm()">Подтвердить</button>
+</mat-dialog-actions>

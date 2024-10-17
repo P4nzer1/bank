@@ -33,27 +33,25 @@ export class AccountTransferComponent {
       return;
     }
 
-    const transferData = {
-      operationCode: 'AccountTransfer',
-      parameters: [
-        { identifier: 'fromAccount', value: this.transferForm.get('fromAccount')?.value },
-        { identifier: 'toAccount', value: this.transferForm.get('toAccount')?.value },
-        { identifier: 'amount', value: this.transferForm.get('amount')?.value }
-      ]
-    };
-
-    this.accountOperationService.startOperation(transferData).pipe(
+    this.accountOperationService.startOperation().pipe(
       switchMap(response => {
         console.log('Funds transfer operation started successfully:', response);
         const requestId = response.requestId;
         if (requestId) {
-          return this.proceedOperation(requestId);
+          const transferData = {
+            parameters: [
+              { identifier: 'fromAccount', value: this.transferForm.get('fromAccount')?.value },
+              { identifier: 'toAccount', value: this.transferForm.get('toAccount')?.value },
+              { identifier: 'amount', value: this.transferForm.get('amount')?.value }
+            ]
+          };
+          return this.proceedOperation(requestId, transferData);
         } else {
           console.error('Request ID not received from server');
           throw new Error('Request ID not received');
         }
       }),
-      switchMap(() => this.productService.getAccounts()),
+      switchMap(() => this.productService.getAccounts()), // Обновляем счета после операции
       tap(updatedAccounts => {
         console.log('Accounts updated:', updatedAccounts);
       })
@@ -67,16 +65,11 @@ export class AccountTransferComponent {
     });
   }
 
-  proceedOperation(requestId: string): Observable<any> {
-    const stepData = this.prepareStepDataFromResponse();
-    return this.accountOperationService.proceedOperation(requestId, stepData).pipe(
+  proceedOperation(requestId: string, transferData: any): Observable<any> {
+    return this.accountOperationService.proceedOperation(requestId, transferData).pipe(
       tap(response => {
         console.log('Operation proceeded successfully', response);
       })
     );
-  }
-
-  private prepareStepDataFromResponse(): any {
-    return this.transferForm.value;
   }
 }

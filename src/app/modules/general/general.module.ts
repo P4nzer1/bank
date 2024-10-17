@@ -3,10 +3,12 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 
 
 
@@ -14,7 +16,8 @@ import { MatIconModule } from '@angular/material/icon';
 @NgModule({
   declarations: [
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     CommonModule,
@@ -23,10 +26,12 @@ import { MatIconModule } from '@angular/material/icon';
     MatTabsModule,
     MatMenuModule,
     MatIconModule,
+    MatDialogModule
   ],
   exports: [
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    ConfirmationDialogComponent
   ]
 })
 export class GeneralModule { }
