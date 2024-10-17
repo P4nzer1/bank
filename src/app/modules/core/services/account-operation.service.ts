@@ -12,17 +12,14 @@ export class AccountOperationService {
     private operationService: OperationService
   ) {}
 
-  // Метод для получения счетов пользователя
   getUserAccounts(): Observable<any> {
     return this.productsService.getAccounts();
   }
 
-  // Метод для получения карт пользователя
   getUserCards(): Observable<any> {
     return this.productsService.getCards();
   }
 
-  // Метод для выполнения пополнения счета
   refillAccount(accountNumber: string, amount: number): Observable<any> {
     const operationData = {
       operationCode: 'AccountRefill',
@@ -34,7 +31,7 @@ export class AccountOperationService {
     return this.operationService.startOperation(operationData);
   }
 
-  // Метод для открытия нового счета
+  
   openAccount(accountType: string, initialBalance: number): Observable<any> {
     const operationData = {
       operationCode: 'AccountOpen',
@@ -46,7 +43,6 @@ export class AccountOperationService {
     return this.operationService.startOperation(operationData);
   }
 
-  // Метод для заказа новой карты
   orderCard(deliveryAddress: string): Observable<any> {
     const operationData = {
       operationCode: 'CardOrder',
@@ -56,8 +52,6 @@ export class AccountOperationService {
     };
     return this.operationService.startOperation(operationData);
   }
-
-  // Метод для перевода между счетами
   transferBetweenAccounts(fromAccount: string, toAccount: string, amount: number): Observable<any> {
     const operationData = {
       operationCode: 'AccountTransfer',
@@ -69,13 +63,16 @@ export class AccountOperationService {
     };
     return this.operationService.startOperation(operationData);
   }
-  // Запуск новой операции открытия счета
+
   startOperation(operationData: any): Observable<any> {
     return this.operationService.startOperation(operationData);
   }
 
-  // Выполнение следующего шага операции
   proceedOperation(requestId: string, stepData: any): Observable<any> {
     return this.operationService.proceedOperation(requestId, stepData);
   }
+  confirmOperation(operationId: string): Observable<any> {
+    return this.operationService.confirmOperation(operationId);
+  }
+  
 }

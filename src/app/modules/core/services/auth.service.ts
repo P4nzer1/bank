@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  private baseUrl = 'https://fw-ib-7fc99.psb-tech.ru/api'; 
 
   constructor(private http: HttpClient) {}
 

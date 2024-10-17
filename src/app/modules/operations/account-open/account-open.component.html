@@ -1,16 +1,16 @@
 <div class="account-open-container">
   <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="outline">
-      <mat-label for="accountType">Тип счета (число)</mat-label>
-      <input id="accountType" matInput type="number" formControlName="accountType" placeholder="Введите тип счета (число)" required />
+      <mat-label>Тип счета (число)</mat-label>
+      <input matInput type="number" formControlName="accountType" placeholder="Введите тип счета (число)" required />
       <mat-error *ngIf="accountForm.get('accountType')?.hasError('required')">
         Тип счета обязателен для заполнения
       </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-      <mat-label for="initialDeposit">Начальный взнос</mat-label>
-      <input id="initialDeposit" matInput type="number" formControlName="initialDeposit" placeholder="Введите начальный взнос" required />
+      <mat-label>Начальный взнос</mat-label>
+      <input matInput type="number" formControlName="initialDeposit" placeholder="Введите начальный взнос" required />
       <mat-error *ngIf="accountForm.get('initialDeposit')?.hasError('required')">
         Начальный взнос обязателен для заполнения
       </mat-error>
