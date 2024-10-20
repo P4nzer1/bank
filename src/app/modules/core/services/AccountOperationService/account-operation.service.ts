@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ProductsService } from './products.service';
-import { OperationService } from './operation.service';
+import { ProductsService } from '../ProductService/products.service';
+import { OperationService } from '../OperationService/operation.service';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';  
 
@@ -61,24 +61,30 @@ export class AccountOperationService {
     );
   }
 
-  orderCard(deliveryAddress: string): Observable<any> {
+  orderCard(cardOrderData: { cardType: string, programType: string }): Observable<any> {
     const operationData = {
-      parameters: [
-        { identifier: 'deliveryAddress', value: deliveryAddress }
+      stepParams: [
+        { identifier: 'Product', value: cardOrderData.cardType }, // Тип карты
+        { identifier: 'ProgramType', value: cardOrderData.programType } // Тип программы выпуска
       ]
     };
-
+  
+    // Старт операции заказа карты
     return this.operationService.startOperation('CardOrder').pipe(
       switchMap(response => {
         const requestId = response.requestId;
         if (requestId) {
+          // Выполнение операции с передачей данных
           return this.operationService.proceedOperation(requestId, operationData);
         } else {
-          throw new Error('Request ID не получен');
+          throw new Error('Request ID is missing');
         }
       })
     );
   }
+  
+  
+  
 
   transferBetweenAccounts(fromAccount: string, toAccount: string, amount: number): Observable<any> {
     const operationData = {
@@ -93,7 +99,7 @@ export class AccountOperationService {
       switchMap(response => {
         const requestId = response.requestId;
         if (requestId) {
-          return this.operationService.proceedOperation(requestId, operationData);
+          return this.operationService.proceedOperation(requestId, operationData); // Передаем данные для следующего шага
         } else {
           throw new Error('Request ID не получен');
         }

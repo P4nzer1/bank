@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +9,10 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  
+  isLoggedIn(): Observable<boolean> {
+    const token = this.getToken(); // допустим, что метод getToken() возвращает токен
+    return of(!!token); // проверяем наличие токена
+  }
   login(credentials: { login: string; password: string }): Observable<any> {
     return this.http.post('api/authorization/token', credentials);
   }
@@ -52,16 +55,12 @@ export class AuthService {
   }
 
   getToken(): string | null {
-    return localStorage.getItem('accessToken');
+    const token = localStorage.getItem('accessToken');
+    return token;
   }
 
   removeToken(): void {
     localStorage.removeItem('accessToken');
-  }
-
-  isLoggedIn(): boolean {
-    const token = this.getToken();
-    return !!token; // Если токен есть, возвращаем true
   }
 }
 

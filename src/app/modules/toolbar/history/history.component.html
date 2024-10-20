@@ -1,0 +1,28 @@
+<mat-card>
+    <mat-card-title>История операций</mat-card-title>
+    <table mat-table [dataSource]="operationHistory">
+      <!-- Тип операции -->
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef> Тип </th>
+        <td mat-cell *matCellDef="let operation">
+          <mat-icon>{{ operation.typeIcon }}</mat-icon> {{ operation.type }}
+        </td>
+      </ng-container>
+  
+      <!-- Дата операции -->
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef> Дата </th>
+        <td mat-cell *matCellDef="let operation"> {{ operation.date }} </td>
+      </ng-container>
+  
+      <!-- Сумма операции -->
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef> Сумма </th>
+        <td mat-cell *matCellDef="let operation"> {{ operation.amount }} </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </mat-card>
+  

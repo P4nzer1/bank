@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../../core/services/AuthService/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -6,15 +8,20 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
+  constructor(private authService: AuthService, private router: Router) {}
+
+  onLogout() {
+    this.authService.logout().subscribe(() => {
+      this.authService.removeToken();
+      this.router.navigate(['/auth']);
+    });
+  }
   navLinks: string[] = [
-    'Частным лицам',
-    'Малому бизнесу',
-    'ГосОборонЗаказ',
-    'Кредиты',
-    'Карты',
-    'Вклады и счета',
-    'Ипотека',
-    'Премиальное обслуживание',
-    'Инвестиции'
   ];
+  goToProducts() {
+    this.router.navigate(['/toolbar/products']);
+  }
+  
+  
+  
 }

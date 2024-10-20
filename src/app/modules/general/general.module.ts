@@ -17,7 +17,7 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
   declarations: [
     HeaderComponent,
     FooterComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -26,12 +26,13 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
     MatTabsModule,
     MatMenuModule,
     MatIconModule,
-    MatDialogModule
+    MatDialogModule,
   ],
   exports: [
     HeaderComponent,
     FooterComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    
   ]
 })
 export class GeneralModule { }

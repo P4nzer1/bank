@@ -4,4 +4,4 @@ export interface StepParam {
     type: 'multiple' | 'text'; 
     values?: string[];       
     required: boolean;       
-  }
+}

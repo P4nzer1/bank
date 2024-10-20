@@ -1,11 +1,26 @@
 <div class="app-container">
     <app-header></app-header>
+    <nav class="navigation-header"  *ngIf="authService.isLoggedIn()" >
+
+      <button class="nav-button" mat-icon-button routerLink="toolbar/products">
+        <mat-icon>home</mat-icon>
+        <span>Главная страница</span>
+      </button>
+     
+      <button class="nav-button" mat-icon-button routerLink="toolbar/history">
+        <mat-icon>history</mat-icon>
+        <span>История</span>
+      </button>
+
+      <button class="nav-button" mat-icon-button routerLink="toolbar/profile">
+        <mat-icon>man</mat-icon>
+        <span>Личный Кабинет</span>
+      </button>
+    </nav>
+
     <div class="content-container">
       <router-outlet></router-outlet>
-  
-      <!-- Меню навигации только для авторизованных пользователей -->
-      <nav class="navigation-links" *ngIf="authService.isLoggedIn()">
-        <a routerLink="/toolbar/products">Главная страница</a>
+      <nav class="navigation-footer" *ngIf="authService.isLoggedIn()">
         <a routerLink="/operations/open">Открыть счет</a>
         <a routerLink="/operations/refill">Пополнить счет</a>
         <a routerLink="/operations/transfer">Перевести средства</a>

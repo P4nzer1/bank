@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/modules/core/services/auth.service';
+import { AuthService } from 'src/app/modules/core/services/AuthService/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -39,7 +39,7 @@ export class RegisterComponent {
       this.authService.register(registrationData).subscribe({
         next: (response: any) => {
           this.authService.saveToken(response.accessToken);
-          this.router.navigate(['/toolbar/products']);
+          this.router.navigate(['/auth/login']);
         },
         error: (error: any) => {
           console.error('Ошибка при регистрации:', error);

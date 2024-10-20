@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -17,25 +17,21 @@ export class OperationService {
   
   
   proceedOperation(requestId: string, stepData: any): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.patch<any>(`${this.baseUrl}?requestId=${requestId}`, stepData, { headers });
+    return this.http.patch<any>(`${this.baseUrl}?requestId=${requestId}`, stepData);
   }
   
-  confirmOperation(operationId: string): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/${operationId}/confirm`, {});
+  confirmOperation(requestId: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}?requestId=${requestId}`,{});
+
   }
-  
   
   deleteOperation(operationId: string): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/${operationId}`);
   }
-
+//переместить в другое место
   getOperations(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}`);
-  }
-
-  
-  
+    return this.http.get<any>('/api/accounts');
+  }  
 }
 
 

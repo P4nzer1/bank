@@ -10,6 +10,7 @@ import { CoreModule } from './modules/core/core.module';
 import { GeneralModule } from './modules/general/general.module';
 import { ToolbarModule } from './modules/toolbar/toolbar.module';
 import { OperationsModule } from './modules/operations/operations.module';
+import { MatIconModule } from '@angular/material/icon';
 
 
 
@@ -30,6 +31,8 @@ import { OperationsModule } from './modules/operations/operations.module';
     ToolbarModule,
     GeneralModule,
     OperationsModule,
+    MatIconModule,
+
     
   ],
   providers: [],

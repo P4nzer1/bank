@@ -1,42 +1,84 @@
 .card-order-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px;
-    background-color: #63ace4;
-    border-radius: 8px;
-  
-    form {
-      width: 100%;
-      max-width: 500px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      background-color: #cd5252;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-  
-    mat-form-field {
-      width: 100%;
-  
-      mat-label {
-        font-weight: bold;
-      }
-  
-      input,
-      mat-select {
-        font-size: 16px;
-      }
-    }
-  
-    button {
-      align-self: center;
-      padding: 12px 24px;
-      font-size: 16px;
-      font-weight: 600;
-      text-transform: uppercase;
-    }
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f0f4f8;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+select, input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #333;
+}
+
+select:focus, input:focus {
+  border-color: #6a1b9a;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(106, 27, 154, 0.3);
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #6a1b9a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #4a148c;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: #e53935;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 600px) {
+  .card-order-container {
+    padding: 15px;
   }
-  
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  select, input {
+    font-size: 0.9rem;
+  }
+
+  button {
+    font-size: 1rem;
+  }
+}

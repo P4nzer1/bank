@@ -1,21 +1,34 @@
 <div class="account-transfer-container">
-    <form [formGroup]="transferForm" (ngSubmit)="onSubmit()">
-      <mat-form-field appearance="outline">
-        <mat-label>Счет отправителя</mat-label>
-        <input matInput type="text" formControlName="fromAccount" placeholder="Введите счет отправителя" required />
-      </mat-form-field>
-  
-      <mat-form-field appearance="outline">
-        <mat-label>Счет получателя</mat-label>
-        <input matInput type="text" formControlName="toAccount" placeholder="Введите счет получателя" required />
-      </mat-form-field>
-  
-      <mat-form-field appearance="outline">
-        <mat-label>Сумма перевода</mat-label>
-        <input matInput type="number" formControlName="amount" placeholder="Введите сумму" required />
-      </mat-form-field>
-  
-      <button mat-raised-button color="primary" type="submit" [disabled]="!transferForm.valid">Перевести средства</button>
-    </form>
-  </div>
+  <form [formGroup]="transferForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="fromAccount">Откуда перевести:</label>
+      <select id="fromAccount" formControlName="fromAccount">
+        <option *ngFor="let account of accounts$ | async" [value]="account.id">
+          {{ account.name }} ({{ account.balance }})
+        </option>
+      </select>
+    </div>
+
+    <div>
+      <label for="toAccount">Куда перевести:</label>
+      <select id="toAccount" formControlName="toAccount">
+        <option *ngFor="let account of accounts$ | async" [value]="account.id">
+          {{ account.name }} ({{ account.balance }})
+        </option>
+      </select>
+    </div>
+
+    <div>
+      <label for="amount">Сумма перевода</label>
+      <input id="amount" formControlName="amount" type="number">
+    </div>
+
+    <div>
+      <input type="text" formControlName="comment" placeholder="Комментарий">
+    </div>
+
+    <button type="submit">Перевести</button>
+  </form>
+</div>
+
   

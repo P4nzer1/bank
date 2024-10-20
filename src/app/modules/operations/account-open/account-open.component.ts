@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { AccountOperationService } from '../../core/services/account-operation.service';
+import { AccountOperationService } from '../../core/services/AccountOperationService/account-operation.service';
 import { StepParam } from '../../core/interface/step-param';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../general/confirmation-dialog/confirmation-dialog.component';
@@ -15,7 +15,6 @@ export class AccountOpenComponent {
   stepParams: StepParam[] = [];
 
   constructor(private fb: FormBuilder, private accountOperationService: AccountOperationService, private dialog: MatDialog) {
-    // Инициализация формы
     this.accountForm = this.fb.group({
       AccountType: ['', Validators.required],
       InitialDeposit: ['', [Validators.required, Validators.min(100)]],
@@ -27,14 +26,11 @@ export class AccountOpenComponent {
       console.error('Форма заполнена неверно', this.accountForm);
       return;
     }
-  
-    // Запуск первой операции с кодом операции
     this.accountOperationService.startOperation('AccountOpen').subscribe(
       response => {
         console.log('Операция открытия счета успешно запущена', response);
         const requestId = response.requestId;
         if (requestId) {
-          // Если запрос успешен, обрабатываем шаги операции
           this.handleStepParams(response.stepParams, requestId);
         } else {
           console.error('Request ID не получен с сервера');
@@ -46,19 +42,16 @@ export class AccountOpenComponent {
     );
   }
   
-  // Обработка параметров шага
   handleStepParams(stepParams: StepParam[], requestId: string): void {
     const formData = this.collectStepFormData(stepParams);
     this.proceedOperation(requestId, formData);
   }
   
-  // Сбор данных для отправки
   collectStepFormData(stepParams: StepParam[]): { identifier: string, value: any }[] {
     const formData: { identifier: string, value: any }[] = [];
   
     stepParams.forEach((param: StepParam) => {
       if (param.identifier === 'AccountType') {
-        // Используем выбранное значение из формы
         formData.push({
           identifier: param.identifier,
           value: this.accountForm.get('AccountType')?.value
@@ -73,11 +66,11 @@ export class AccountOpenComponent {
   
     return formData;
   }
-  
-  // Выполнение следующего шага операции
+
   proceedOperation(requestId: string, stepData: { identifier: string, value: string }[]): void {
     this.accountOperationService.proceedOperation(requestId, stepData).subscribe({
       next: response => {
+        this.confirmOperation(requestId);
         console.log('Операция успешно обработана', response);
         if (response.stepParams) {
           this.handleStepParams(response.stepParams, requestId);
@@ -102,6 +95,7 @@ export class AccountOpenComponent {
     });
   }
 
+
   updateFormWithStepParams(stepParams: StepParam[]): void {
     stepParams.forEach(param => {
       if (!this.accountForm.contains(param.identifier)) {
@@ -111,10 +105,4 @@ export class AccountOpenComponent {
     });
   }
 
-  private prepareStepDataFromResponse(): any {
-    return this.stepParams.map(param => ({
-      identifier: param.identifier,
-      value: this.accountForm.get(param.identifier)?.value?.toString() || ''
-    }));
-  }
 }

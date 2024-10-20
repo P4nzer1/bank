@@ -1,47 +1,87 @@
 .footer-toolbar {
-    padding: 10px;
     flex-wrap: wrap;
-    background-color: darkcyan; /* Один цвет для всего футера */
+    background-color: rgb(255, 123, 0); /* Цвет фона */
     width: 100%;
-    
+    height: auto;
     display: flex;
-    flex-direction: column; /* Добавим для вертикального выравнивания */
+    justify-content: space-around; /* Распределяет колонки */
+    padding: 20px;
 }
 
 .footer-content {
     display: flex;
-    justify-content: space-around;
+    flex-wrap: wrap; /* Позволяет колонкам перестраиваться */
+    justify-content: space-between; /* Распределяет колонки равномерно */
     width: 100%;
-    flex-wrap: wrap;
-    gap: 40px;
-    /* Убираем background-color здесь, чтобы фон был единым */
 }
 
 .footer-section {
+    flex: 1 1 calc(25% - 40px); /* Каждая колонка занимает 25% ширины с отступами */
+    min-width: 200px; /* Минимальная ширина колонок */
     margin: 20px;
-    flex: 1 1 calc(25% - 40px);
-    min-width: 200px;
 }
 
 .footer-bottom {
     text-align: center;
     padding: 10px;
     width: 100%;
-    /* Убираем background-color здесь, чтобы не дублировать */
 }
 
 .footer-section h3 {
     margin-bottom: 10px;
 }
 
-.footer-section a {
+.footer-section a,
+.footer-section p {
     display: block;
     margin-bottom: 5px;
     color: rgb(0, 0, 0);
     text-decoration: none;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .footer-section a:hover {
     text-decoration: underline;
 }
-       
+
+button.mat-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+}
+
+/* Адаптивные стили для уменьшения экрана */
+@media (max-width: 768px) {
+    .footer-section {
+        flex: 1 1 48%; /* Каждая секция занимает 48% ширины */
+        text-align: center;
+    }
+
+    .footer-toolbar {
+        padding: 10px;
+    }
+
+    button.mat-button {
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-section {
+        flex: 1 1 100%; /* Каждая секция занимает 100% ширины */
+        text-align: center;
+    }
+
+    .footer-toolbar {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    button.mat-button {
+        display: block;
+        width: 100%;
+        margin: 5px 0;
+    }
+}

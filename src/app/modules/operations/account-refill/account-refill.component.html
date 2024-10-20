@@ -1,17 +1,20 @@
 <div class="account-refill-container">
   <form [formGroup]="refillForm" (ngSubmit)="onSubmit()">
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="fill">
       <mat-label>Номер счета</mat-label>
-      <input matInput type="text" formControlName="accountNumber" placeholder="Введите номер счета" required />
+      <mat-select formControlName="accountNumber">
+        <mat-option *ngFor="let account of accounts" [value]="account.number">
+          {{ account.number }} ({{ account.name }})
+        </mat-option>
+      </mat-select>
     </mat-form-field>
-
-    <mat-form-field appearance="outline">
+  
+    <mat-form-field appearance="fill">
       <mat-label>Сумма пополнения</mat-label>
-      <input matInput type="number" formControlName="amount" placeholder="Введите сумму" required />
+      <input matInput formControlName="amount" placeholder="Введите сумму" />
     </mat-form-field>
-
-    <button mat-raised-button color="primary" type="submit" [disabled]="refillForm.invalid || loading">
-      Пополнить счет
-    </button>
-  </form>
+    
+  
+    <button mat-raised-button color="primary" type="submit">Пополнить счет</button>
+  </form>  
 </div>

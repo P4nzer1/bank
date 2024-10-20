@@ -1,20 +1,27 @@
 <div class="card-order-container">
-    <form [formGroup]="cardForm" (ngSubmit)="onSubmit()">
-      <mat-form-field appearance="outline">
-        <mat-label>Тип карты</mat-label>
-        <mat-select formControlName="cardType" placeholder="Выберите тип карты" required>
-          <mat-option value="credit">Кредитная</mat-option>
-          <mat-option value="debit">Дебетовая</mat-option>
-        </mat-select>
-      </mat-form-field>
-      
+  <h2>Заказать карту</h2>
+  <form [formGroup]="cardForm" (ngSubmit)="onSubmit()">
+    <label for="cardType">Тип карты</label>
+    <select id="cardType" formControlName="cardType">
+      <option value="">Выберите тип карты</option>
+      <option value="Дебетовая">Дебетовая карта</option>
+      <option value="Кредитная">Кредитная карта</option>
+    </select>
   
-      <mat-form-field appearance="outline">
-        <mat-label>Адрес доставки</mat-label>
-        <input matInput type="text" formControlName="deliveryAddress" placeholder="Введите адрес" required />
-      </mat-form-field>
+    <label for="programType">Тип программы выпуска</label>
+    <select id="programType" formControlName="programType">
+      <option value="">Выберите программу выпуска</option>
+      <option *ngFor="let program of programTypes" [value]="program">{{ program }}</option>
+    </select>
   
-      <button mat-raised-button color="primary" type="submit" [disabled]="!cardForm.valid">Заказать карту</button>
-    </form>
+    <label for="deliveryAddress">Адрес доставки</label>
+    <input id="deliveryAddress" type="text" formControlName="deliveryAddress" placeholder="Введите адрес доставки">
+  
+    <button type="submit" [disabled]="cardForm.invalid">Заказать карту</button>
+  
+    <div *ngIf="cardForm.invalid && cardForm.touched" class="error-message">
+      Пожалуйста, заполните все поля формы.
+    </div>
+  </form>
+  
 </div>
-  

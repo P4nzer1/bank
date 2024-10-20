@@ -1,0 +1,93 @@
+.cards-accounts-container {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  align-items: stretch;
+  padding: 20px;
+  flex-wrap: wrap; /* Добавляем обертку, чтобы колонки переходили на новую строку при уменьшении экрана */
+}
+
+.gradient-card {
+  width: 100%;
+  max-width: 400px; /* Ограничение максимальной ширины */
+  min-width: 200px; /* Минимальная ширина для адаптивности */
+  padding: 20px;
+  border-radius: 15px;
+  position: relative;
+  background: linear-gradient(135deg, #cac40a 0%, #fa7d00, #0a38c1 100%);
+  animation: gradient-animation 3s ease infinite;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Чтобы кнопка была внизу */
+}
+
+.mat-card {
+  margin-bottom: 15px;
+  background: linear-gradient(45deg, #ffa722, #ff5722); /* Градиент для фона карточек */
+  color: rgb(255, 255, 255); 
+  border-radius: 20px; 
+  box-shadow: 15px 15px 10px rgba(0, 0, 0, 0.2);
+}
+mat-card-title {
+  font-size: 1.2em; /* Начальный размер шрифта */
+  white-space: nowrap; /* Отключает перенос строки */
+  overflow: hidden; /* Скрывает текст, который выходит за пределы */
+  text-overflow: ellipsis; /* Добавляет "..." для длинных строк */
+}
+
+@media (max-width: 768px) {
+  mat-card-title {
+    font-size: 1em; /* Уменьшает размер шрифта на маленьких экранах */
+  }
+}
+
+
+.custom-plus-button {
+  position: absolute;
+  top: 10px; 
+  right: 10px; 
+  background-color: rgb(74, 74, 69);
+  color: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer; 
+  font-size: 24px; 
+  padding: 7px; 
+}
+
+
+.empty-message {
+  color: #ffffff;
+}
+
+a {
+  display: block;
+  margin-top: 10px;
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Media queries для адаптивности */
+@media (max-width: 768px) {
+  .gradient-card {
+    max-width: 200px; /* Уменьшаем ширину карточек на маленьких экранах */
+  }
+
+  .cards-accounts-container {
+    justify-content: center; /* Центрируем карточки при узком экране */
+  }
+}
