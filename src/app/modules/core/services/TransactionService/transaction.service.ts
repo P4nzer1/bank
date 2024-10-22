@@ -20,6 +20,4 @@ export class TransactionService {
   getTransactionInfo(transactionId: string): Observable<any> {
     return this.http.get(`/api/transactions/info/${transactionId}`);
   }
-  
-
 }

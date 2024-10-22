@@ -64,17 +64,14 @@ export class AccountOperationService {
   orderCard(cardOrderData: { cardType: string, programType: string }): Observable<any> {
     const operationData = {
       stepParams: [
-        { identifier: 'Product', value: cardOrderData.cardType }, // Тип карты
-        { identifier: 'ProgramType', value: cardOrderData.programType } // Тип программы выпуска
+        { identifier: 'Product', value: cardOrderData.cardType }, 
+        { identifier: 'ProgramType', value: cardOrderData.programType } 
       ]
     };
-  
-    // Старт операции заказа карты
     return this.operationService.startOperation('CardOrder').pipe(
       switchMap(response => {
         const requestId = response.requestId;
         if (requestId) {
-          // Выполнение операции с передачей данных
           return this.operationService.proceedOperation(requestId, operationData);
         } else {
           throw new Error('Request ID is missing');
@@ -99,7 +96,7 @@ export class AccountOperationService {
       switchMap(response => {
         const requestId = response.requestId;
         if (requestId) {
-          return this.operationService.proceedOperation(requestId, operationData); // Передаем данные для следующего шага
+          return this.operationService.proceedOperation(requestId, operationData); 
         } else {
           throw new Error('Request ID не получен');
         }

@@ -7,5 +7,5 @@ export interface Card {
     balance: number;
     limit: number;
     currency: Currency;
-  }
+}
   

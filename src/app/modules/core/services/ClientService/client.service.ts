@@ -24,12 +24,8 @@ export class ClientService {
   deleteClient(): Observable<any> {
     return this.http.delete('/api/clients');
   }
-  
+
   updatePassword(newPasswordData: { password: string }): Observable<any> {
     return this.http.patch('/api/clients/password', newPasswordData);
   }
-  
-  
-  
-  
 }

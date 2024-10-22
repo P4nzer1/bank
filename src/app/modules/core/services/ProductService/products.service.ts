@@ -10,10 +10,9 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ProductsService {
-  
 
-  private accountsSubject = new BehaviorSubject<any[]>([]); // Создаем BehaviorSubject для счетов
-  accounts$ = this.accountsSubject.asObservable(); // Экспортируем как Observable
+  private accountsSubject = new BehaviorSubject<any[]>([]); 
+  accounts$ = this.accountsSubject.asObservable(); 
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -29,68 +28,54 @@ export class ProductsService {
     );
   }
   
-  
-  // Обновление информации о счетах
   updateAccounts(accounts: any[]) {
     this.accountsSubject.next(accounts); 
   }
 
-  // Получение счета по ID
   getAccountById(accountId: string): Observable<any> {
     return this.http.get<any>(`/api/accounts/${accountId}`);
   }
 
-  // Получение карты по ID
   getCardById(cardId: string): Observable<any> {
     return this.http.get<any>(`/api/cards/${cardId}`);
   }
 
-  // Блокировка счета
   lockAccount(accountId: string): Observable<any> {
     return this.http.patch<any>(`/api/accounts/lock/${accountId}`, {});
   }
 
-  // Разблокировка счета
   unlockAccount(accountId: string): Observable<any> {
     return this.http.patch<any>(`/api/accounts/unlock/${accountId}`, {});
   }
 
-  // Блокировка карты
   lockCard(cardId: string): Observable<any> {
     return this.http.patch<any>(`/api/cards/lock/${cardId}`, {});
   }
 
-  // Разблокировка карты
   unlockCard(cardId: string): Observable<any> {
     return this.http.patch<any>(`/api/cards/unlock/${cardId}`, {});
   }
 
-  // Получение заказов на карты
   getOrders(): Observable<any[]> {
     return this.http.get<any[]>('/api/cards/orders');
   }
 
-  // Активация карты
   activateCard(cardId: string): Observable<any> {
     return this.http.patch<any>(`/api/cards/activate/${cardId}`, {});
   }
 
-  // Навигация: открыть счет
   openAccount() {
     this.router.navigate(['/operations/open']);
   }
 
-  // Навигация: заказать карту
   orderCard() {
     this.router.navigate(['/operations/order']);
   }
 
-  // Навигация: пополнить счет
   refillAccount(accountNumber: string) {
     this.router.navigate(['/operations/refill'], { queryParams: { accountNumber } });
   }
 
-  // Навигация: перевести деньги на карту
   transferMoney(cardNumber: string) {
     this.router.navigate(['/operations/transfer'], { queryParams: { cardNumber } });
   }
