@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ProductsComponent } from './products/products.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
@@ -20,14 +21,16 @@ import { ProfileComponent } from './profile/profile.component';
     ProfileComponent,
   ],
   imports: [
-    CommonModule,
-    MatCardModule,
-    ToolbarRoutingModule,
     MatProgressSpinnerModule,
     MatSelectModule,
     MatIconModule,
     MatTableModule,
     MatListModule,
+    CommonModule,
+    FormsModule,
+    MatCardModule,
+    ToolbarRoutingModule,
+   
   ],
   exports: [
     ProductsComponent,

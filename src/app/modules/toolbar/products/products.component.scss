@@ -4,13 +4,13 @@
   gap: 20px;
   align-items: stretch;
   padding: 20px;
-  flex-wrap: wrap; /* Добавляем обертку, чтобы колонки переходили на новую строку при уменьшении экрана */
+  flex-wrap: wrap; 
 }
 
 .gradient-card {
   width: 100%;
-  max-width: 400px; /* Ограничение максимальной ширины */
-  min-width: 200px; /* Минимальная ширина для адаптивности */
+  max-width: 400px;
+  min-width: 200px;
   padding: 20px;
   border-radius: 15px;
   position: relative;
@@ -19,28 +19,63 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Чтобы кнопка была внизу */
+  justify-content: space-between;
 }
 
 .mat-card {
   margin-bottom: 15px;
-  background: linear-gradient(45deg, #ffa722, #ff5722); /* Градиент для фона карточек */
+  background: linear-gradient(45deg, #ffa722, #ff5722);
   color: rgb(255, 255, 255); 
   border-radius: 20px; 
   box-shadow: 15px 15px 10px rgba(0, 0, 0, 0.2);
 }
+
 mat-card-title {
-  font-size: 1.2em; /* Начальный размер шрифта */
-  white-space: nowrap; /* Отключает перенос строки */
-  overflow: hidden; /* Скрывает текст, который выходит за пределы */
-  text-overflow: ellipsis; /* Добавляет "..." для длинных строк */
+  font-size: 1.2em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-@media (max-width: 768px) {
-  mat-card-title {
-    font-size: 1em; /* Уменьшает размер шрифта на маленьких экранах */
-  }
+.mat-card-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-left: 10px;
 }
+
+.rounded-button {
+  border-radius: 50px;
+  width: 140px;
+  height: 40px;
+  background: linear-gradient(135deg, #211fa2, #ff4081);
+  color: white;
+  text-align: center;
+  padding: 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.status-indicator {
+  font-size: 1em;
+  padding: 5px 10px;  
+  border-radius: 10px;
+  color: white;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+   
+}
+
+.locked-status {
+  background-color: rgb(56, 56, 56);
+}
+
+.unlocked-status {
+  background-color: rgb(186, 207, 0);
+}
+  
 
 
 .custom-plus-button {
@@ -53,9 +88,8 @@ mat-card-title {
   box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
   cursor: pointer; 
   font-size: 24px; 
-  padding: 7px; 
+  padding: 7px;
 }
-
 
 .empty-message {
   color: #ffffff;
@@ -81,13 +115,17 @@ a {
   }
 }
 
-/* Media queries для адаптивности */
 @media (max-width: 768px) {
   .gradient-card {
-    max-width: 200px; /* Уменьшаем ширину карточек на маленьких экранах */
+    max-width: 200px;
   }
 
   .cards-accounts-container {
-    justify-content: center; /* Центрируем карточки при узком экране */
+    justify-content: center;
+  }
+  .status-indicator {
+    position: relative; 
+    margin:  20px 10px 0 10px;
+    text-align: center; 
   }
 }

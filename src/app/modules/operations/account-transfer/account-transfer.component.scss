@@ -1,24 +1,70 @@
 .account-transfer-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #5a8afa;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  background-color: #4e4e4e;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+select, input {
+  width: 100%; /* Делаем все поля на 100% ширины контейнера */
+  padding: 12px; /* Одинаковая высота для всех полей */
+  border-radius: 15px; /* Округленные углы */
+  border: 1px solid #ccc;
+ 
+  font-size: 16px;
+  box-sizing: border-box; /* Учитываем отступы для полей */
+}
+
+select:focus, input:focus {
+  border-color: #6a1b9a;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(106, 27, 154, 0.3);
+}
+
+button {
+  width: 50%; /* Кнопка также занимает всю ширину */
+  padding: 12px; /* Высота кнопки */
+  font-size: 16px;
+  margin: auto;
+  font-weight: bold;
+  background-color: #d3db00; /* Цвет кнопки */
+  color: #fff;
+  border-radius: 15px; 
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #5e35b1; /* Цвет кнопки при наведении */
+} 
+
+label {
+  color: white;
+  font-size: 16px;
+}
+
+.account-transfer-container {
+  margin-bottom: 20px; 
+}
+
+@media (max-width: 600px) {
+  .account-transfer-container {
+    padding: 15px;
   }
-  
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+
+  select, input {
+    font-size: 14px;
   }
-  
-  mat-form-field {
-    width: 100%;
+
+  button {
+    font-size: 14px;
   }
-  
-  button[type='submit'] {
-    align-self: center;
-    padding: 10px 20px;
-    font-size: 16px;
-  }
+}
+

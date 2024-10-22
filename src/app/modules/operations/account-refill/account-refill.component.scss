@@ -1,29 +1,48 @@
-.account-refill-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  margin-top: 50px;
-  background-color: #0080ff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+#account-refill-container {
   max-width: 400px;
-  margin: auto;
+  margin: 20px auto;
+  padding: 30px;
+  background-color: #515151;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
-  text-align: center;
-  color: #3f51b5;
-  margin-bottom: 20px;
-}
-
-mat-form-field {
+.mat-form-field {
   width: 100%;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
-
 button {
   width: 100%;
+  padding: 12px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  background-color: #ccdb00;
+  color: #fff;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #6c00b9;
+}
+
+.error-message {
+  color: #e53935;
+  font-size: 0.9rem;
+  text-align: center;
   margin-top: 20px;
+}
+
+@media (max-width: 600px) {
+  #account-refill-container {
+    padding: 15px;
+  }
+
+  .mat-form-field {
+    font-size: 0.9rem;
+  }
+
+  button {
+    font-size: 1rem;
+  }
 }

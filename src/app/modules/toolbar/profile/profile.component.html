@@ -1,24 +1,23 @@
-<div>
-  <mat-card>
-    <mat-card-title>Личный кабинет</mat-card-title>
-    <mat-list>
-      <mat-list-item>
-        <mat-icon>person</mat-icon>
-        <h4 mat-line>ФИО: {{ user.firstName }} {{ user.lastName }} {{user.middleName}}</h4>
-      </mat-list-item>
-      <mat-list-item>
-        <mat-icon>email</mat-icon>
-        <h4 mat-line>Почта: {{ user.email }}</h4>
-      </mat-list-item>
-      <mat-list-item>
-        <mat-icon>phone</mat-icon>
-        <h4 mat-line>Номер телефона: {{ user.phoneNumber }}</h4>
-      </mat-list-item>
-      <mat-list-item>
-        <mat-icon>account_circle</mat-icon>
-        <h4 mat-line>Логин: {{ user.login }}</h4>
-      </mat-list-item>
-    </mat-list>
- </mat-card>
+<div class="container">
+    <mat-card>
+      <mat-card-title>Личный кабинет</mat-card-title>
+      <mat-list>
+        <mat-list-item class="profile-info">
+          <mat-icon class="profile-icon">person</mat-icon>
+          <h4 class="profile-title" mat-line>ФИО: {{ user?.firstName }} {{ user?.lastName }} {{ user?.middleName }}</h4>
+        </mat-list-item>
+        <mat-list-item class="profile-info">
+          <mat-icon class="profile-icon">email</mat-icon>
+          <h4 class="profile-title" mat-line>Почта: {{ user?.email }}</h4>
+        </mat-list-item>
+        <mat-list-item class="profile-info">
+          <mat-icon class="profile-icon">phone</mat-icon>
+          <h4 class="profile-title" mat-line>Номер телефона: {{ user?.phoneNumber }}</h4>
+        </mat-list-item>
+        <mat-list-item class="profile-info">
+          <mat-icon class="profile-icon">account_circle</mat-icon>
+          <h4 class="profile-title" mat-line>Логин: {{ user?.login }}</h4>
+        </mat-list-item>
+      </mat-list>
+    </mat-card>
 </div>
-  

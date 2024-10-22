@@ -1,8 +1,8 @@
 .card-order-container {
   max-width: 400px;
-  margin: 0 auto;
+  margin: 20px auto;
   padding: 20px;
-  background-color: #f0f4f8;
+  background-color: #515151;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -10,14 +10,14 @@
 h2 {
   text-align: center;
   font-size: 1.5rem;
-  color: #333;
+  color: #ffffff;
   margin-bottom: 20px;
 }
 
 label {
   display: block;
   font-size: 1rem;
-  color: #666;
+  color: #ffffff;
   margin-bottom: 8px;
 }
 
@@ -28,7 +28,8 @@ select, input {
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 1rem;
-  color: #333;
+  color: #000000;
+  box-sizing: border-box;
 }
 
 select:focus, input:focus {
@@ -40,7 +41,7 @@ select:focus, input:focus {
 button {
   width: 100%;
   padding: 12px;
-  background-color: #6a1b9a;
+  background-color: #bdce01;
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -51,11 +52,6 @@ button {
 
 button:hover {
   background-color: #4a148c;
-}
-
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
 }
 
 .error-message {

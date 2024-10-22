@@ -21,9 +21,10 @@ export class CardService {
     return this.http.get('/api/cards/orders');
   }
 
-  activateCard(cardId: string): Observable<any> {
-    return this.http.patch(`/api/cards/activate/${cardId}`, {});
+  activateCard(cardId: string, pinCode: string): Observable<any> {
+    return this.http.patch(`/api/cards/activate/${cardId}`, { pinCode });
   }
+  
 
   lockCard(cardId: string): Observable<any> {
     return this.http.patch(`/api/cards/lock/${cardId}`, {});

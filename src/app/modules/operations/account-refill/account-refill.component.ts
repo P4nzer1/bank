@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductsService } from '../../core/services/ProductService/products.service';
 import { AccountOperationService } from '../../core/services/AccountOperationService/account-operation.service'; 
-import { OperationService } from '../../core/services/OperationService/operation.service';
 import { Observable } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../../general/confirmation-dialog/confirmation-dialog.component';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-account-refill',
@@ -16,13 +18,12 @@ export class AccountRefillComponent implements OnInit {
   loading: boolean = false;
   errorMessage: string = ''; 
   accounts: any[] = [];
-  selectedAccount: string | null = null;
 
   constructor(
     private fb: FormBuilder,
     private productService: ProductsService,
     private accountOperationService: AccountOperationService,
-    private operationService: OperationService,
+    private dialog: MatDialog
   ) {
     this.refillForm = this.fb.group({
       accountNumber: ['', Validators.required],
@@ -31,11 +32,7 @@ export class AccountRefillComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.accounts$ = this.productService.getAccounts();
-    this.accounts$.subscribe(accounts => {
-      console.log('Полученные счета:', accounts); 
-    this.loadAccounts()
-    });
+    this.loadAccounts();
   }
   
   onSubmit() {
@@ -43,41 +40,45 @@ export class AccountRefillComponent implements OnInit {
       console.error('Форма заполнена неверно', this.refillForm);
       return;
     }
-  
     const accountNumber = this.refillForm.get('accountNumber')?.value;
     const amount = this.refillForm.get('amount')?.value;
-  
-    this.loading = true; 
-  
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: { operationName: 'пополнение счета' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.performRefill(accountNumber, amount);
+      }
+    });
+  }
+
+  performRefill(accountNumber: string, amount: number) {
+    this.loading = true;
     this.accountOperationService.startOperation('AccountRefill').subscribe({
       next: (response) => {
-        console.log('Операция пополнения счета успешно запущена', response);
         const requestId = response.requestId;
         if (requestId) {
           this.handleStepParams(response.stepParams, requestId, accountNumber, amount);
         } else {
-          console.error('Request ID не получен');
           this.loading = false;
         }
       },
       error: (err) => {
         console.error('Ошибка при запуске операции:', err);
-        this.errorMessage = 'Ошибка при запуске операции';
         this.loading = false;
       }
     });
   }
+  
   loadAccounts() {
-    this.operationService.getOperations().subscribe(
-      (data: any) => {
-        this.accounts = data.filter((account:any) => account.state === 'Active');
-      },
-      (error) => {
-        console.error('Ошибка при загрузке счетов:', error);
-      }
+    this.accounts$ = this.productService.getAccounts().pipe(
+      map(accounts => accounts.map(account => ({
+        value: `[${account.number}] ${account.name} *${String(account.number).slice(-4)} (${account.balance} ${this.convertCurrencyToString(account.currency)})`
+      })))
     );
   }
-  
+
   handleStepParams(stepParams: any[], requestId: string, accountNumber: string, amount: number): void {
     const formData = this.collectStepFormData(stepParams, accountNumber, amount);
     this.proceedOperation(requestId, formData);
@@ -118,12 +119,11 @@ export class AccountRefillComponent implements OnInit {
       next: response => {
         this.confirmOperation(requestId);
         console.log('Операция успешно обработана', response);
-        // Проверка, есть ли шаги для следующей операции
         if (response.stepParams) {
           this.handleStepParams(response.stepParams, requestId, stepData[0].value, stepData[1].value);
         } else {
           console.log('Операция завершена');
-          this.updateAccounts(); // Обновляем данные счетов после завершения операции
+          this.updateAccounts(); 
         }
       },
       error: err => {
@@ -133,17 +133,26 @@ export class AccountRefillComponent implements OnInit {
     });
   }
 
-  // Обновление счетов после завершения операции
   updateAccounts(): void {
     this.productService.getAccounts().subscribe({
       next: (updatedAccounts) => {
         console.log('Обновленные счета:', updatedAccounts);
-        this.loading = false; // Отключаем флаг загрузки
+        this.loading = false;
       },
       error: (err) => {
         console.error('Ошибка при обновлении счетов', err);
         this.loading = false;
       }
     });
+  }
+
+  convertCurrencyToString(currency: number): string {
+    switch (currency) {
+      case 840: return 'USD';
+      case 978: return 'EUR';
+      case 643: return 'RUB';
+      case 156: return 'CNY';
+      default: return 'Unknown Currency';
+    }
   }
 }

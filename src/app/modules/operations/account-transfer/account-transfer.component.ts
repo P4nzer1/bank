@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AccountOperationService } from '../../core/services/AccountOperationService/account-operation.service';
 import { ProductsService } from '../../core/services/ProductService/products.service';
 import { Observable } from 'rxjs';
-import { tap, switchMap } from 'rxjs/operators';
+import { Currency } from '../../core/interface/currency';
+import { switchMap, map } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../../general/confirmation-dialog/confirmation-dialog.component';
 import { StepParam } from '../../core/interface/step-param';
 
 @Component({
@@ -11,27 +14,31 @@ import { StepParam } from '../../core/interface/step-param';
   templateUrl: './account-transfer.component.html',
   styleUrls: ['./account-transfer.component.scss']
 })
-export class AccountTransferComponent {
+export class AccountTransferComponent implements OnInit {
   transferForm: FormGroup;
-  accounts$: Observable<any>; // Счета пользователя
-  cards$: Observable<any>; // Карты пользователя
+  accounts$: Observable<any[]> = new Observable<any[]>();
 
   constructor(
     private fb: FormBuilder,
     private accountOperationService: AccountOperationService,
-    private productService: ProductsService
+    private productService: ProductsService,
+    private dialog: MatDialog
+
   ) {
-    // Форма перевода средств
     this.transferForm = this.fb.group({
       fromAccount: ['', Validators.required],
       toAccount: ['', Validators.required],
       amount: ['', [Validators.required, Validators.min(1)]],
-      comment: [''],
+      comment: ['']
     });
+  }
 
-    // Получаем список счетов и карт пользователя
-    this.accounts$ = this.productService.getAccounts();
-    this.cards$ = this.productService.getCards();
+  ngOnInit(): void {
+    this.accounts$ = this.productService.getAccounts().pipe(
+      map(accounts => accounts.map(account => ({
+        value: `[${account.number}] ${account.name} *${String(account.number).slice(-4)} (${account.balance} ${this.convertCurrencyToString(account.currency)})`
+      })))
+    );
   }
 
   onSubmit(): void {
@@ -39,63 +46,66 @@ export class AccountTransferComponent {
       console.error('Форма заполнена неверно', this.transferForm);
       return;
     }
-
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: { operationName: 'перевод между счетами' }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.performTransfer();
+      }
+    });
+  }
+  
+  performTransfer(): void {
     this.accountOperationService.startOperation('AccountTransfer').pipe(
       switchMap(response => {
         const requestId = response.requestId;
         if (requestId) {
-          // Собираем данные для шага операции
           const transferData = this.collectStepFormData(response.stepParams);
-          console.log('Transfer Data:', transferData);  // Лог для проверки данных
+          console.log('Transfer Data:', transferData);
           return this.proceedOperation(requestId, transferData);
         } else {
-          console.error('Request ID не получен с сервера');
           throw new Error('Request ID не получен');
         }
-      }),
-      switchMap(() => this.productService.getAccounts()), // Обновляем счета после операции
-      tap(updatedAccounts => {
-        console.log('Счета обновлены:', updatedAccounts);
       })
     ).subscribe({
-      next: () => {
-        console.log('Операция завершена и счета обновлены');
+      next: (response) => {
+        console.log('Операция завершена');
+        if (response.stepParams) {
+          this.updateFormWithStepParams(response.stepParams);
+        } else {
+          this.confirmOperation(response.requestId);
+        }
       },
       error: err => {
         console.error('Ошибка при выполнении перевода средств:', err);
       }
     });
   }
+  
 
   proceedOperation(requestId: string, transferData: any): Observable<any> {
-    console.log('Transfer Data:', transferData);  // Логируем данные перед отправкой
-  
-    return this.accountOperationService.proceedOperation(requestId, transferData).pipe(
-      tap(response => {
-        console.log('Операция успешно продолжена', response);
-      })
-    );
+    return this.accountOperationService.proceedOperation(requestId, transferData);
   }
-  
 
   collectStepFormData(stepParams: StepParam[]): { identifier: string, value: any }[] {
     const formData: { identifier: string, value: any }[] = [];
-  
-    stepParams.forEach((param: StepParam) => {
+
+    stepParams.forEach(param => {
       if (param.identifier === 'SourceAccount') {
         formData.push({
           identifier: param.identifier,
-          value: this.transferForm.get('fromAccount')?.value
+          value: this.replaceCurrencyCode(this.transferForm.get('fromAccount')?.value || '')
         });
-      } else if (param.identifier === 'RecipientAccount') { 
+      } else if (param.identifier === 'ReceiverAccount') {
         formData.push({
           identifier: param.identifier,
-          value: this.transferForm.get('toAccount')?.value
+          value: this.extractAccountNumber(this.transferForm.get('toAccount')?.value || '')
         });
       } else if (param.identifier === 'Amount') {
         formData.push({
           identifier: param.identifier,
-          value: this.transferForm.get('amount')?.value
+          value: this.transferForm.get('amount')?.value.toString() || ''
         });
       } else if (param.identifier === 'Comment') {
         formData.push({
@@ -104,9 +114,49 @@ export class AccountTransferComponent {
         });
       }
     });
-  
-    console.log('Collected Step Form Data:', formData); 
+
     return formData;
   }
-  
+
+  confirmOperation(operationId: string): void {
+    this.accountOperationService.confirmOperation(operationId).subscribe({
+      next: response => {
+        console.log('Операция успешно подтверждена', response);
+      },
+      error: err => {
+        console.error('Ошибка при подтверждении операции:', err);
+      }
+    });
+  }
+
+  updateFormWithStepParams(stepParams: StepParam[]): void {
+    stepParams.forEach(param => {
+      if (!this.transferForm.contains(param.identifier)) {
+        const validators = param.required ? [Validators.required] : [];
+        this.transferForm.addControl(param.identifier, this.fb.control('', validators));
+      }
+    });
+  }
+
+  convertCurrencyToString(currency: Currency): string {
+    switch (currency) {
+      case Currency.USD: return 'USD';
+      case Currency.EUR: return 'EUR';
+      case Currency.RUB: return 'RUB';
+      case Currency.CNY: return 'CNY';
+      default: return 'Unknown Currency';
+    }
+  }
+
+  replaceCurrencyCode(accountValue: string): string {
+    return accountValue.replace('643', 'RUB');
+  }
+
+  extractAccountNumber(accountValue: string): string {
+    const accountNumberMatch = accountValue.match(/\d{20}/);
+    if (accountNumberMatch) {
+      return accountNumberMatch[0];
+    }
+    return accountValue;
+  }
 }

@@ -1,20 +1,27 @@
-<div class="account-refill-container">
+<div id="account-refill-container">
   <form [formGroup]="refillForm" (ngSubmit)="onSubmit()">
+    <!-- Выпадающий список для выбора счета -->
     <mat-form-field appearance="fill">
       <mat-label>Номер счета</mat-label>
       <mat-select formControlName="accountNumber">
-        <mat-option *ngFor="let account of accounts" [value]="account.number">
-          {{ account.number }} ({{ account.name }})
+        <mat-option *ngFor="let account of accounts$ | async" [value]="account.value">
+          {{ account.value }}
         </mat-option>
       </mat-select>
     </mat-form-field>
-  
+
+    <!-- Поле для ввода суммы пополнения -->
     <mat-form-field appearance="fill">
       <mat-label>Сумма пополнения</mat-label>
-      <input matInput formControlName="amount" placeholder="Введите сумму" />
+      <input matInput formControlName="amount" type="number" placeholder="Введите сумму" />
     </mat-form-field>
-    
-  
-    <button mat-raised-button color="primary" type="submit">Пополнить счет</button>
-  </form>  
+
+    <!-- Кнопка для подтверждения -->
+    <button mat-raised-button type="submit" [disabled]="refillForm.invalid">Пополнить счет</button>
+
+    <!-- Сообщение об ошибке при неверно заполненной форме -->
+    <div *ngIf="refillForm.invalid && refillForm.touched" class="error-message">
+      Пожалуйста, заполните все поля.
+    </div>
+  </form>
 </div>

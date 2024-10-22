@@ -10,8 +10,8 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   isLoggedIn(): Observable<boolean> {
-    const token = this.getToken(); // допустим, что метод getToken() возвращает токен
-    return of(!!token); // проверяем наличие токена
+    const token = this.getToken(); 
+    return of(!!token); 
   }
   login(credentials: { login: string; password: string }): Observable<any> {
     return this.http.post('api/authorization/token', credentials);

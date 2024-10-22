@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, CanActivateChild, CanLoad, Route, ActivatedRouteSnapshot, RouterStateSnapshot, Router, UrlSegment, UrlTree } from '@angular/router';
+import { CanActivate, CanActivateChild, CanLoad, ActivatedRouteSnapshot, RouterStateSnapshot, Router, UrlTree } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { AuthService } from '../services/AuthService/auth.service';
@@ -12,8 +12,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
 
   canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> {
+    state: RouterStateSnapshot): Observable<boolean | UrlTree> {
     console.log('CanActivate: Проверяем авторизацию');
     return this.authService.isLoggedIn().pipe(
       map(isAuthenticated => {
@@ -45,10 +44,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
     return this.canActivate(childRoute, state);
   }
 
-  canLoad(
-    route: Route,
-    segments: UrlSegment[]
-  ): Observable<boolean | UrlTree> {
+  canLoad(): Observable<boolean | UrlTree> {
     console.log('CanLoad: Проверяем авторизацию для ленивой загрузки');
     return this.authService.isLoggedIn().pipe(
       map(isAuthenticated => {

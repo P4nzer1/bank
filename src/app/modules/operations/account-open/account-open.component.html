@@ -1,6 +1,6 @@
 <div class="account-open-container">
   <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
-    <mat-form-field appearance="outline" class="full-width">
+    <mat-form-field appearance="outline" class="full-width form-field">
       <mat-label>Тип счета</mat-label>
       <mat-select formControlName="AccountType" placeholder="Выберите тип счета" required>
         <mat-option [value]="'Текущий счет'">Текущий счет</mat-option>
@@ -8,7 +8,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="full-width">
+    <mat-form-field appearance="outline" class="full-width form-field">
       <mat-label>Начальный взнос</mat-label>
       <input matInput type="number" formControlName="InitialDeposit" placeholder="Введите начальный взнос" required />
     </mat-form-field>

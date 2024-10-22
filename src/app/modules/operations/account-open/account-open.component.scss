@@ -1,17 +1,18 @@
 .account-open-container {
   max-width: 450px;
-  margin: 0 auto;
+  margin: 20px auto;
   padding: 30px;
-  background-color: #ff6464;
-  border-radius: 8px;
+  background-color: #565656;
+  border-radius: 15px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
   form {
     display: flex;
     flex-direction: column;
 
-    .mat-form-field {
+    .form-field {
       margin-bottom: 20px;
+      border-radius: 15px; 
     }
 
     .full-width {
@@ -23,18 +24,15 @@
       padding: 12px;
       font-size: 16px;
       font-weight: bold;
-      background-color: #6200ea;
+      background-color: #d3db00;
       color: #fff;
-      border-radius: 5px;
+      border-radius: 15px; 
       transition: background-color 0.3s;
 
       &:hover {
         background-color: #5e35b1;
       }
-
-      &:disabled {
-        background-color: #b0bec5;
-      }
     }
   }
 }
+
