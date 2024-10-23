@@ -17,7 +17,7 @@ export class HistoryComponent implements OnInit {
     private transactionService: TransactionService,
     private operationService: OperationService
   ) {}
-
+  
   ngOnInit() {
     this.operationService.getOperations().subscribe(
       (data) => {

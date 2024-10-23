@@ -28,7 +28,7 @@ export class OperationService {
   deleteOperation(operationId: string): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/${operationId}`);
   }
-//переместить в другое место
+  
   getOperations(): Observable<any> {
     return this.http.get<any>('/api/accounts');
   }  

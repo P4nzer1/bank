@@ -45,8 +45,8 @@ export class AuthService {
     return this.http.delete('api/clients');
   }
 
-  updatePassword(newPasswordData: any): Observable<any> {
-    return this.http.patch('api/clients/password', newPasswordData);
+  updatePassword(login: string): Observable<any> {
+    return this.http.patch('api/clients/password', { login });
   }
 
 

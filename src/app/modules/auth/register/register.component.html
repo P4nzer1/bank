@@ -1,48 +1,103 @@
 <div class="register-container">
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    
     <mat-form-field appearance="outline">
       <mat-label>Фамилия</mat-label>
       <input matInput formControlName="lastName" required />
+      <mat-icon  *ngIf="isFieldValid('lastName')">check_circle</mat-icon>
+      <mat-error *ngIf="registerForm.get('lastName')?.hasError('required')">
+        Фамилия обязательна.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Имя</mat-label>
       <input matInput formControlName="firstName" required />
+      <mat-icon *ngIf="isFieldValid('firstName')">check_circle</mat-icon>
+      <mat-error *ngIf="registerForm.get('firstName')?.hasError('required')">
+        Имя обязательно.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Отчество</mat-label>
       <input matInput formControlName="middleName" required />
+      <mat-icon *ngIf="isFieldValid('middleName')">check_circle</mat-icon>
+      <mat-error *ngIf="registerForm.get('middleName')?.hasError('required')">
+        Отчество обязательно.
+      </mat-error>
     </mat-form-field>
-    
+
     <mat-form-field appearance="outline">
       <mat-label>Дата рождения</mat-label>
       <input matInput formControlName="birthdate" type="date" required />
+      <mat-icon  *ngIf="isFieldValid('birthdate')">check_circle</mat-icon>
+      <mat-error *ngIf="registerForm.get('birthdate')?.hasError('tooYoung')">
+        Вам должно быть 18 лет или больше.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Логин</mat-label>
       <input matInput formControlName="login" required />
+      <mat-icon  *ngIf="isFieldValid('login')">check_circle</mat-icon>
+      <mat-error *ngIf="registerForm.get('login')?.hasError('required')">
+        Логин обязателен.
+      </mat-error>
+      <mat-error *ngIf="registerForm.get('login')?.hasError('minlength')">
+        Логин должен содержать не менее 5 символов.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Пароль</mat-label>
       <input matInput type="password" formControlName="password" required />
+      <mat-icon  *ngIf="isFieldValid('password')">check_circle</mat-icon>
+      <mat-error *ngIf="registerForm.get('password')?.hasError('required')">
+        Пароль обязателен.
+      </mat-error>
+      <mat-error *ngIf="registerForm.get('password')?.hasError('minlength')">
+        Пароль должен быть не менее 8 символов.
+      </mat-error>
+      <mat-error *ngIf="registerForm.get('password')?.hasError('pattern')">
+        Пароль должен содержать буквы и цифры.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Номер телефона</mat-label>
       <input matInput type="tel" formControlName="phoneNumber" required />
+      <mat-icon  *ngIf="isFieldValid('phoneNumber')">check_circle</mat-icon>
+      <mat-error *ngIf="registerForm.get('phoneNumber')?.hasError('required')">
+        Номер телефона обязателен.
+      </mat-error>
+      <mat-error *ngIf="registerForm.get('phoneNumber')?.hasError('pattern')">
+        Введите номер телефона в формате +7XXXXXXXXXX.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Адрес</mat-label>
       <input matInput formControlName="address" required />
+      <mat-icon  *ngIf="isFieldValid('address')">check_circle</mat-icon>
+      <mat-error *ngIf="registerForm.get('address')?.hasError('required')">
+        Адрес обязателен.
+      </mat-error>
+      <mat-error *ngIf="registerForm.get('address')?.hasError('pattern')">
+        Адрес должен содержать хотя бы одну цифру и не содержать пробелов.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Email</mat-label>
       <input matInput type="email" formControlName="email" required />
+      <mat-icon  *ngIf="isFieldValid('email')">check_circle</mat-icon>
+      <mat-error *ngIf="registerForm.get('email')?.hasError('required')">
+        Email обязателен.
+      </mat-error>
+      <mat-error *ngIf="registerForm.get('email')?.hasError('email')">
+        Введите корректный Email.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -51,8 +106,15 @@
         <mat-option value="male">Мужской</mat-option>
         <mat-option value="female">Женский</mat-option>
       </mat-select>
+      <mat-icon matInput *ngIf="isFieldValid('sex')">check_circle</mat-icon>
+      <mat-error *ngIf="registerForm.get('sex')?.hasError('required')">
+        Пол обязателен.
+      </mat-error>
     </mat-form-field>
-
-    <button mat-raised-button color="primary" type="submit" [disabled]="!registerForm.valid">Зарегистрироваться</button>
+    <div class="button-container">
+      <button mat-raised-button type="submit" [disabled]="!registerForm.valid">
+        Зарегистрироваться
+      </button>
+    </div>
   </form>
 </div>

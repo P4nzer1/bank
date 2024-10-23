@@ -11,6 +11,8 @@ import { GeneralModule } from './modules/general/general.module';
 import { ToolbarModule } from './modules/toolbar/toolbar.module';
 import { OperationsModule } from './modules/operations/operations.module';
 import { MatIconModule } from '@angular/material/icon';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './modules/core/interceptors/auth.interceptor';
 
 
 
@@ -19,6 +21,13 @@ import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   declarations: [
     AppComponent,
   ],
@@ -35,7 +44,6 @@ import { MatIconModule } from '@angular/material/icon';
 
     
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -8,10 +8,7 @@ import { switchMap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AccountOperationService {
-  constructor(
-    private productsService: ProductsService,
-    private operationService: OperationService
-  ) {}
+  constructor(private productsService: ProductsService, private operationService: OperationService) {}
 
   getUserAccounts(): Observable<any> {
     return this.productsService.getAccounts();

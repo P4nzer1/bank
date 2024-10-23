@@ -1,7 +1,8 @@
 <div class="auth-choice-container">
     <h2>Добро пожаловать!</h2>
-    <p>Выберите действие:</p>
-    <button mat-raised-button color="primary" (click)="navigateToLogin()">Войти</button>
-    <button mat-raised-button color="accent" (click)="navigateToRegister()">Зарегистрироваться</button>
-</div>
+    <form >
+      <button mat-raised-button type="submit" (click)="navigateToLogin()">Войти</button>
+      <button class="reg" mat-raised-button type="submit" (click)="navigateToRegister()">Регистрация</button>
+    </form>
+  </div>
   

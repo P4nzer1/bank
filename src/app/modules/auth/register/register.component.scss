@@ -1,29 +1,61 @@
 .register-container {
-    max-width: 480px;
-    margin: 5rem auto;
-    padding: 2rem;
-    background: #333;
-    border-radius: 10px;
-    color: #fff;
-  
-    mat-card-title {
-      text-align: center;
-      font-size: 1.5rem;
-    }
-  
-    mat-form-field {
-      width: 100%;
-      margin-bottom: 1rem;
-    }
-  
-    mat-card-actions {
+  max-width: 480px;
+  margin: 5rem auto;
+  padding: 2rem;
+  background: #333;
+  border-radius: 30px;
+  color: #fff;
+
+  mat-card-title {
+    text-align: center;
+    font-size: 1.5rem;
+  }
+
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 1rem;
+    position: relative;
+
+    .mat-input-wrapper {
       display: flex;
-      justify-content: center;
-  
-      button {
-        width: 100%;
-        max-width: 200px;
+      align-items: center;
+    }
+
+    .mat-input-element, .mat-select-trigger {
+      padding-right: 3rem;
+    }
+
+    mat-icon {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #840db7;
+      font-size: 1.75rem;
+      pointer-events: none;
+    }
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    
+    button {
+      width: 100%;
+      max-width: 250px;
+      padding: 10px 20px;
+      background-color: #89db06; 
+      color: #fff; 
+      border-radius: 15px; 
+      font-size: 0,5rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #6d0b98; 
       }
     }
   }
-  
+}

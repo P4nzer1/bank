@@ -31,7 +31,10 @@ describe('AuthGuard', () => {
   it('должен разрешить аутентифицированному пользователю доступ к маршруту', (done) => {
     authService.isLoggedIn.and.returnValue(of(true));
 
-    guard.canActivate(null as any, null as any).subscribe(result => {
+    const mockRoute = {};
+    const mockState = { url: '/protected-route' }; 
+
+    guard.canActivate(mockRoute as any, mockState as any).subscribe(result => {
       expect(result).toBe(true);
       done();
     });
@@ -43,10 +46,13 @@ describe('AuthGuard', () => {
     const mockUrlTree = { url: '/auth/login' } as any;
     router.createUrlTree.and.returnValue(mockUrlTree);
 
-    guard.canActivate(null as any, null as any).subscribe(result => {
+    const mockRoute = {};
+    const mockState = { url: '/protected-route' }; 
+
+    guard.canActivate(mockRoute as any, mockState as any).subscribe(result => {
       expect(result).toBe(mockUrlTree);
       expect(router.createUrlTree).toHaveBeenCalledWith(['/auth/login'], {
-        queryParams: { returnUrl: undefined }
+        queryParams: { returnUrl: '/protected-route' }
       });
       done();
     });
@@ -55,7 +61,10 @@ describe('AuthGuard', () => {
   it('должен разрешить аутентифицированному пользователю доступ к дочернему маршруту', (done) => {
     authService.isLoggedIn.and.returnValue(of(true));
 
-    guard.canActivateChild(null as any, null as any).subscribe(result => {
+    const mockRoute = {};
+    const mockState = { url: '/protected-child-route' };
+
+    guard.canActivateChild(mockRoute as any, mockState as any).subscribe(result => {
       expect(result).toBe(true);
       done();
     });
@@ -67,29 +76,36 @@ describe('AuthGuard', () => {
     const mockUrlTree = { url: '/auth/login' } as any;
     router.createUrlTree.and.returnValue(mockUrlTree);
 
-    guard.canActivateChild(null as any, null as any).subscribe(result => {
+    const mockRoute = {};
+    const mockState = { url: '/protected-child-route' }; 
+
+    guard.canActivateChild(mockRoute as any, mockState as any).subscribe(result => {
       expect(result).toBe(mockUrlTree);
+      expect(router.createUrlTree).toHaveBeenCalledWith(['/auth/login'], {
+        queryParams: { returnUrl: '/protected-child-route' }
+      });
       done();
     });
   });
 
   it('должен разрешить загрузку модуля для авторизованного пользователя', (done) => {
     authService.isLoggedIn.and.returnValue(of(true));
-  
+
     guard.canLoad().subscribe(result => {
       expect(result).toBe(true);
       done();
     });
   });
-  
+
   it('должен перенаправить неаутентифицированного пользователя на страницу входа (canLoad)', (done) => {
     authService.isLoggedIn.and.returnValue(of(false));
-  
+
     const mockUrlTree = { url: '/auth/login' } as any;
     router.createUrlTree.and.returnValue(mockUrlTree);
-  
+
     guard.canLoad().subscribe(result => {
       expect(result).toBe(mockUrlTree);
+      expect(router.createUrlTree).toHaveBeenCalledWith(['/auth/login']);
       done();
     });
   });
