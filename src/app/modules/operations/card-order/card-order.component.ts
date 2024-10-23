@@ -10,13 +10,13 @@ import { StepParam } from '../../core/interface/step-param';
 })
 export class CardOrderComponent {
   cardForm: FormGroup;
-  programTypes = ['МИР', 'Visa', 'Mastercard', 'Maestro']; // Программы выпуска карт
+  programTypes = ['МИР', 'Visa', 'Mastercard', 'Maestro']; 
 
   constructor(private fb: FormBuilder, private accountOperationService: AccountOperationService) {
     this.cardForm = this.fb.group({
       cardType: ['', Validators.required],
       programType: ['', Validators.required],
-      deliveryAddress: ['', Validators.required], // Убедитесь, что этот параметр нужен
+      deliveryAddress: ['', Validators.required],
     });
   }
 
@@ -26,13 +26,12 @@ export class CardOrderComponent {
       return;
     }
 
-    // Стартуем операцию заказа карты
     this.accountOperationService.startOperation('CardOrder').subscribe(
       response => {
         console.log('Card order operation started successfully', response);
         const requestId = response.requestId;
         if (requestId) {
-          this.handleStepParams(response.stepParams, requestId); // Обрабатываем шаги
+          this.handleStepParams(response.stepParams, requestId);
         } else {
           console.error('Request ID не получен с сервера');
         }
@@ -55,7 +54,7 @@ export class CardOrderComponent {
       if (param.identifier === 'Product') {
         formData.push({
           identifier: param.identifier,
-          value: this.cardForm.get('cardType')?.value === 'Дебетовая' ? 'Дебетовая карта' : 'Кредитная карта' // Правильное значение
+          value: this.cardForm.get('cardType')?.value === 'Дебетовая' ? 'Дебетовая карта' : 'Кредитная карта' 
         });
       } else if (param.identifier === 'ProgramType') {
         formData.push({
@@ -73,9 +72,9 @@ export class CardOrderComponent {
       next: response => {
         console.log('Операция успешно обработана', response);
         if (response.stepParams) {
-          this.handleStepParams(response.stepParams, requestId); // Продолжаем шаги, если они есть
+          this.handleStepParams(response.stepParams, requestId); 
         } else {
-          this.confirmOperation(requestId); // Подтверждаем операцию, если шагов больше нет
+          this.confirmOperation(requestId);
         }
       },
       error: err => {

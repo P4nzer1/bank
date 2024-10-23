@@ -14,13 +14,13 @@ form {
 }
 
 select, input {
-  width: 100%; /* Делаем все поля на 100% ширины контейнера */
-  padding: 12px; /* Одинаковая высота для всех полей */
-  border-radius: 15px; /* Округленные углы */
+  width: 100%; 
+  padding: 12px; 
+  border-radius: 15px; 
   border: 1px solid #ccc;
  
   font-size: 16px;
-  box-sizing: border-box; /* Учитываем отступы для полей */
+  box-sizing: border-box; 
 }
 
 select:focus, input:focus {
@@ -30,19 +30,19 @@ select:focus, input:focus {
 }
 
 button {
-  width: 50%; /* Кнопка также занимает всю ширину */
-  padding: 12px; /* Высота кнопки */
+  width: 50%; 
+  padding: 12px; 
   font-size: 16px;
   margin: auto;
   font-weight: bold;
-  background-color: #d3db00; /* Цвет кнопки */
+  background-color: #d3db00; 
   color: #fff;
   border-radius: 15px; 
   transition: background-color 0.3s;
 }
 
 button:hover {
-  background-color: #5e35b1; /* Цвет кнопки при наведении */
+  background-color: #5e35b1; 
 } 
 
 label {

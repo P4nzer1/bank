@@ -21,7 +21,4 @@ export class HeaderComponent {
   goToProducts() {
     this.router.navigate(['/toolbar/products']);
   }
-  
-  
-  
 }

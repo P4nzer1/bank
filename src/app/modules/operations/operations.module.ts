@@ -11,8 +11,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { OperationsRoutingModule } from './operations-routing.module';
 
-
-
 @NgModule({
   declarations: [
     AccountOpenComponent,

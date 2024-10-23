@@ -126,16 +126,15 @@ describe('AuthService', () => {
     req.flush({ success: true });
   });
 
-  it('должен обновлять пароль через updatePassword()', () => {
+  it('должен изменять пароль через changePassword()', () => {
     const passwordData = { oldPassword: 'oldPass', newPassword: 'newPass' };
-    
-    service.updatePassword(passwordData).subscribe(response => {
+    service.changePassword(passwordData).subscribe(response => {
       expect(response).toBeTruthy();
     });
-
-    const req = httpMock.expectOne('api/clients/password');
+  
+    const req = httpMock.expectOne('/api/clients/password');
     expect(req.request.method).toBe('PATCH');
-    expect(req.request.body).toEqual(passwordData);
+    expect(req.request.body).toEqual(passwordData);  
     req.flush({ success: true });
   });
 

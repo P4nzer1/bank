@@ -4,7 +4,7 @@
       <label for="fromAccount">Откуда перевести</label>
       <select id="fromAccount" formControlName="fromAccount">
         <option *ngFor="let account of accounts$ | async" [value]="account.value">
-          {{ replaceCurrencyCode(account.value) }} <!-- Для счета отправления с заменой валюты -->
+          {{ replaceCurrencyCode(account.value) }}
         </option>
       </select>
     </div>
@@ -13,7 +13,7 @@
       <label for="toAccount">Куда перевести</label>
       <select id="toAccount" formControlName="toAccount">
         <option *ngFor="let account of accounts$ | async" [value]="account.value">
-          {{ extractAccountNumber(account.value) }} <!-- Для счета получателя выводим только номер -->
+          {{ extractAccountNumber(account.value) }} 
         </option>
       </select>
     </div>

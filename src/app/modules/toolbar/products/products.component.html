@@ -6,31 +6,16 @@
         <mat-card *ngFor="let card of cards">
           <mat-card-title>{{ card.number }}</mat-card-title>
           <mat-card-actions>
-            <button mat-button class="rounded-button"
-                    (click)="showCvc(card.cardId)">
-              {{ cvcCodes[card.cardId] ? cvcCodes[card.cardId] : 'Показать CVC' }}
+            <button mat-button class="rounded-button" (click)="showCvc(card.cardId)">{{ cvcCodes[card.cardId] ? cvcCodes[card.cardId] : 'Показать CVC' }}
             </button>
-        
-            <span class="status-indicator"
-                  [ngClass]="{'locked-status': cardStatus[card.cardId].locked, 'unlocked-status': !cardStatus[card.cardId].locked}">
-              {{ cardStatus[card.cardId].locked ? 'Карта заблокирована' : 'Карта разблокирована' }}
+            <span class="status-indicator"[ngClass]="{'locked-status': cardStatus[card.cardId].locked, 'unlocked-status': !cardStatus[card.cardId].locked}">{{ cardStatus[card.cardId].locked ? 'Карта заблокирована' : 'Карта разблокирована' }}
             </span>
-        
-            <button mat-button class="rounded-button"
-                    *ngIf="!cardStatus[card.cardId]?.locked"
-                    (click)="lockCard(card.cardId)">
-              Заблокировать
+            <button mat-button class="rounded-button" *ngIf="!cardStatus[card.cardId]?.locked"(click)="lockCard(card.cardId)">Заблокировать
             </button>
-        
-            <button mat-button class="rounded-button"
-                    *ngIf="cardStatus[card.cardId]?.locked"
-                    (click)="unlockCard(card.cardId)">
-              Разблокировать
+            <button mat-button class="rounded-button" *ngIf="cardStatus[card.cardId]?.locked" (click)="unlockCard(card.cardId)">Разблокировать
             </button>
           </mat-card-actions>
-        </mat-card>
-        
-               
+        </mat-card>       
       </div>
       <div *ngIf="cards.length === 0" class="empty-message">
         У вас нет доступных карт.
@@ -39,7 +24,6 @@
     <mat-icon class="custom-plus-button" routerLink="/operations/refill">add</mat-icon>
     <a routerLink="/operations/order">Заказать карту</a>
   </div>
-
   <div class="account-block gradient-card">
     <h2>Ваши счета</h2>
     <div *ngIf="accounts$ | async as accounts">

@@ -11,12 +11,9 @@ import { GeneralModule } from './modules/general/general.module';
 import { ToolbarModule } from './modules/toolbar/toolbar.module';
 import { OperationsModule } from './modules/operations/operations.module';
 import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './modules/core/interceptors/auth.interceptor';
-
-
-
-
 
 
 
@@ -41,6 +38,7 @@ import { AuthInterceptor } from './modules/core/interceptors/auth.interceptor';
     GeneralModule,
     OperationsModule,
     MatIconModule,
+    MatToolbarModule
 
     
   ],

@@ -72,7 +72,9 @@ export class RegisterComponent {
       this.authService.register(registrationData).subscribe({
         next: (response: any) => {
           this.authService.saveToken(response.accessToken);
+          console.log('Токен сохранен:', response.accessToken);
           this.router.navigate(['/auth/login']);
+          console.log('Токен сохранен:', response.accessToken);
         },
         error: (error: any) => {
           console.error('Ошибка при регистрации:', error);
@@ -81,6 +83,7 @@ export class RegisterComponent {
       });
     }
   }
+  
   ageValidator(minAge: number) {
     return (control: AbstractControl): { [key: string]: boolean } | null => {
       const birthdate = new Date(control.value);

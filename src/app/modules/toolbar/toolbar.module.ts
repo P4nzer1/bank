@@ -12,8 +12,6 @@ import { MatListModule } from '@angular/material/list'
 import { HistoryComponent } from './history/history.component';
 import { ProfileComponent } from './profile/profile.component';
 
-
-
 @NgModule({
   declarations: [
     ProductsComponent,
