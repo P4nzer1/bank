@@ -1,69 +1,80 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 import { HistoryComponent } from './history.component';
 import { TransactionService } from '../../core/services/TransactionService/transaction.service';
 import { OperationService } from '../../core/services/OperationService/operation.service';
 import { Currency } from '../../core/interface/currency';
+import { Transaction } from '../../core/interface/transaction';
+import { Operation } from '../../core/interface/operation';
 
 describe('HistoryComponent', () => {
   let component: HistoryComponent;
   let fixture: ComponentFixture<HistoryComponent>;
-  let operationServiceSpy: jasmine.SpyObj<OperationService>;
-  let transactionServiceSpy: jasmine.SpyObj<TransactionService>;
+  let mockTransactionService: jasmine.SpyObj<TransactionService>;
+  let mockOperationService: jasmine.SpyObj<OperationService>;
+
+  const mockOperations: Operation[] = [
+    { type: '1', name: 'Текущий счет', createdDate: '2024-10-18T14:28:00Z', balance: 12302313, currency: Currency.RUB, comment: '' },
+    { type: '2', name: 'Накопительный счет', createdDate: '2024-10-18T23:48:00Z', balance: 10000, currency: Currency.RUB, comment: '' }
+  ];
+
+  const mockTransactions: Transaction[] = [
+    {createdDate: '2024-10-23T14:56:00Z', amount: 12312313, currency: Currency.RUB, type: 'Income', comment: 'Системное пополнение счёта' },
+    { createdDate: '2024-10-23T14:56:00Z', amount: 10000, currency: Currency.RUB, type: 'Expense', comment: '' }
+  ];
 
   beforeEach(async () => {
-    const operationSpy = jasmine.createSpyObj('OperationService', ['getOperations']);
-    const transactionSpy = jasmine.createSpyObj('TransactionService', ['getTransactions']);
+    mockTransactionService = jasmine.createSpyObj('TransactionService', ['getTransactions']);
+    mockOperationService = jasmine.createSpyObj('OperationService', ['getOperations']);
 
     await TestBed.configureTestingModule({
       declarations: [HistoryComponent],
       providers: [
-        { provide: OperationService, useValue: operationSpy },
-        { provide: TransactionService, useValue: transactionSpy },
+        { provide: TransactionService, useValue: mockTransactionService },
+        { provide: OperationService, useValue: mockOperationService }
       ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(HistoryComponent);
     component = fixture.componentInstance;
-    operationServiceSpy = TestBed.inject(OperationService) as jasmine.SpyObj<OperationService>;
-    transactionServiceSpy = TestBed.inject(TransactionService) as jasmine.SpyObj<TransactionService>;
   });
 
-  it('должен создать компонент', () => {
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('должен получить данные операций при инициализации', () => {
-    const mockOperations = [
-      { type: 'Пополнение', date: '2024-10-01', amount: 100, currency: Currency.USD },
-      { type: 'Снятие', date: '2024-10-02', amount: 200, currency: Currency.RUB },
-    ];
+  it('should fetch operations and transactions on init', () => {
 
-    operationServiceSpy.getOperations.and.returnValue(of(mockOperations));
+    mockOperationService.getOperations.and.returnValue(of(mockOperations));
+    mockTransactionService.getTransactions.and.returnValue(of(mockTransactions));
 
     component.ngOnInit();
-
-    expect(operationServiceSpy.getOperations).toHaveBeenCalled();
-    expect(component.operationHistory).toEqual(mockOperations);
+    expect(component.combinedHistory.length).toBe(4);
   });
 
-  it('должен обработать ошибку при получении данных операций', () => {
-    const consoleErrorSpy = spyOn(console, 'error');
-
-    operationServiceSpy.getOperations.and.returnValue(throwError('Ошибка сервера'));
+  it('should correctly combine transactions and operations', () => {
+    mockOperationService.getOperations.and.returnValue(of(mockOperations));
+    mockTransactionService.getTransactions.and.returnValue(of(mockTransactions));
 
     component.ngOnInit();
-
-    expect(operationServiceSpy.getOperations).toHaveBeenCalled();
-    expect(component.operationHistory).toEqual([]);
-    expect(consoleErrorSpy).toHaveBeenCalledWith('Ошибка при получении данных об операциях:', 'Ошибка сервера');
+    const incomeTransaction = component.combinedHistory.find(t => t.type === 'Income');
+    const expenseTransaction = component.combinedHistory.find(t => t.type === 'Expense');
+    
+    expect(incomeTransaction?.comment).toBe('Системное пополнение счёта');
+    expect(expenseTransaction?.comment).toBe('');
   });
 
-  it('должен возвращать правильные символы валют', () => {
+  it('should return the correct transaction type', () => {
+    expect(component.getTransactionType('Income')).toBe('Пополнение');
+    expect(component.getTransactionType('Expense')).toBe('Перевод');
+    expect(component.getTransactionType('Other')).toBe('Other');
+  });
+
+  it('should return the correct currency symbol', () => {
     expect(component.getCurrencySymbol(Currency.USD)).toBe('$');
     expect(component.getCurrencySymbol(Currency.EUR)).toBe('€');
     expect(component.getCurrencySymbol(Currency.RUB)).toBe('₽');
     expect(component.getCurrencySymbol(Currency.CNY)).toBe('¥');
-    expect(component.getCurrencySymbol(999)).toBe(''); 
+    expect(component.getCurrencySymbol(999)).toBe('');
   });
 });

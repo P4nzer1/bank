@@ -6,19 +6,16 @@
         <mat-card *ngFor="let card of cards">
           <mat-card-title>{{ card.number }}</mat-card-title>
           <mat-card-actions>
-            <!-- Кнопка для показа CVC -->
             <button mat-button class="rounded-button"
                     (click)="showCvc(card.cardId)">
               {{ cvcCodes[card.cardId] ? cvcCodes[card.cardId] : 'Показать CVC' }}
             </button>
         
-            <!-- Визуальный статус карты -->
             <span class="status-indicator"
                   [ngClass]="{'locked-status': cardStatus[card.cardId].locked, 'unlocked-status': !cardStatus[card.cardId].locked}">
               {{ cardStatus[card.cardId].locked ? 'Карта заблокирована' : 'Карта разблокирована' }}
             </span>
         
-            <!-- Кнопка блокировки/разблокировки -->
             <button mat-button class="rounded-button"
                     *ngIf="!cardStatus[card.cardId]?.locked"
                     (click)="lockCard(card.cardId)">

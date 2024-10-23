@@ -13,25 +13,22 @@
     align-items: center;
     border-radius: 15px;
     justify-content: center;
-    background-color: #ff9d00;
-    color: #414141;
+    background-color: #767676;
+    color: #2b2b2b;
     transition: color 0.3s ease;
     width: 150px;
     margin: 5px;
     &:hover {
-        color: #ffffff;
-        background-color: #5a5a5a;
+        color: #c14ef3;
+        background-color: #333333;
     }
 }
 
 span {
     font-size: 14px;
 }
-
-@media (max-width: 768px) {
-    .navigation-header {
-        flex-direction: column;
-    }
+@media (max-width: 1080px) {
+    
 
     .nav-button {
         width: 150px;
@@ -40,5 +37,41 @@ span {
 
     span {
         font-size: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    
+    .nav-button {
+        width: 120px;
+        margin-bottom: 0;
+    }
+
+    span {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    
+    .nav-button {
+        width: 100px;
+        margin-bottom: 0;
+    }
+
+    span {
+        font-size: 8px;
+    }
+}
+
+@media (max-width: 340px) {
+    
+    .nav-button {
+        width: 100px;
+        margin-bottom: 0;
+    }
+
+    span {
+        font-size: 8px;
     }
 }
